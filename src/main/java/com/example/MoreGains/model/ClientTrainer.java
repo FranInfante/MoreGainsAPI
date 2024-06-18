@@ -21,7 +21,7 @@ import lombok.Builder;
 public class ClientTrainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
