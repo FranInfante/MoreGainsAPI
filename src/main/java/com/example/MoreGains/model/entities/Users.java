@@ -1,5 +1,6 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.entities;
 
+import com.example.MoreGains.model.enums.PrivacySetting;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.dtos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,14 +20,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Mesocycle {
+public class MesocycleDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
+    private UsersDTO users;
 
     private String name;
     private String description;

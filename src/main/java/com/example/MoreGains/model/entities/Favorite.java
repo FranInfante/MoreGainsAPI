@@ -1,4 +1,4 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

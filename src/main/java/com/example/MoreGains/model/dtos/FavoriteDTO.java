@@ -1,4 +1,4 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.dtos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,16 +18,16 @@ import lombok.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientTrainer {
+public class FavoriteDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "trainer_id", nullable = false)
-    private Users trainer;
+    @JoinColumn(name = "user_id", nullable = false)
+    private UsersDTO users;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Users client;
+    @JoinColumn(name = "exercise_id", nullable = false)
+    private ExerciseDTO exercise;
 }
