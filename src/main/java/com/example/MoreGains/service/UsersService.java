@@ -4,9 +4,9 @@ import com.example.MoreGains.model.dtos.UsersDTO;
 
 import java.util.List;
 
-public interface UserService {
+public interface UsersService {
     List<UsersDTO> getAllUsers();
-    UsersDTO getUserById(Long id);
-    UsersDTO saveUser(UsersDTO user);
-    void deleteUser(Long id);
+    UsersDTO getUserById(Integer id);
+    UsersDTO saveUser(UsersDTO userDTO);
+    void deleteUser(Integer id);
 }
