@@ -29,6 +29,7 @@ public class ExerciseDTO {
 
     private String description;
     private String videoUrl;
+    private Boolean isAvailable = true;
 
     @ManyToOne
     @JoinColumn(name = "muscle_group_id")

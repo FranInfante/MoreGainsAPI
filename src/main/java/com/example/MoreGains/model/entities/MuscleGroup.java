@@ -24,4 +24,5 @@ public class MuscleGroup {
 
     @Column(unique = true, nullable = false)
     private String name;
+    private Boolean isAvailable = true;
 }

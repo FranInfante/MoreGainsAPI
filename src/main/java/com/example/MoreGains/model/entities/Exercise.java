@@ -33,4 +33,6 @@ public class Exercise {
     @ManyToOne
     @JoinColumn(name = "muscle_group_id")
     private MuscleGroup muscleGroup;
+
+    private Boolean isAvailable = true;
 }

@@ -33,4 +33,5 @@ public class Mesocycle {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Boolean isAvailable = true;
 }

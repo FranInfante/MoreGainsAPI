@@ -40,6 +40,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteExercise(Integer id) {
         Exercise exercise = exerciseRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageConstants.EXERCISE_NOT_FOUND));
-        exerciseRepository.delete(exercise);
+        exercise.setIsAvailable(false);
+        exerciseRepository.save(exercise);
     }
 }

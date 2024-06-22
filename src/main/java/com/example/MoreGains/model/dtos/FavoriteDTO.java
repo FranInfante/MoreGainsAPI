@@ -22,6 +22,7 @@ public class FavoriteDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private Boolean isAvailable = true;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

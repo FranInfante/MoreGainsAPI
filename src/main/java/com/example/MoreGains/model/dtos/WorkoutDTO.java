@@ -23,4 +23,5 @@ public class WorkoutDTO {
     private LocalDate date;
     private String name;
     private String description;
+    private Boolean isAvailable = true;
 }
