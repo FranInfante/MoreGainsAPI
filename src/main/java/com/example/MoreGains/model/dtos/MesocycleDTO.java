@@ -1,4 +1,4 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.dtos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,22 +12,26 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientTrainer {
+public class MesocycleDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "trainer_id", nullable = false)
-    private Users trainer;
+    @JoinColumn(name = "user_id", nullable = false)
+    private UsersDTO users;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Users client;
+    private String name;
+    private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Boolean isAvailable = true;
 }

@@ -1,9 +1,10 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.dtos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import lombok.Getter;
@@ -12,25 +13,25 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Mesocycle {
+public class ExerciseDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
-
+    @Column(nullable = false)
     private String name;
+
     private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String videoUrl;
+    private Boolean isAvailable = true;
+
+    @ManyToOne
+    @JoinColumn(name = "muscle_group_id")
+    private MuscleGroupDTO muscleGroup;
 }

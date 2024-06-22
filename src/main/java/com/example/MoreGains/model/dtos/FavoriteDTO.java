@@ -1,4 +1,4 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.dtos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -19,16 +18,17 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Workout {
+public class FavoriteDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private Boolean isAvailable = true;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
+    private UsersDTO users;
 
-    private LocalDate date;
-    private String name;
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "exercise_id", nullable = false)
+    private ExerciseDTO exercise;
 }

@@ -1,4 +1,4 @@
-package com.example.MoreGains.model;
+package com.example.MoreGains.model.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,20 +18,17 @@ import lombok.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WorkoutExercise {
+public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private Boolean isAvailable = true;
 
     @ManyToOne
-    @JoinColumn(name = "workout_id", nullable = false)
-    private Workout workout;
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users users;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
-
-    private Integer sets;
-    private Integer reps;
-    private Double weight;
 }
