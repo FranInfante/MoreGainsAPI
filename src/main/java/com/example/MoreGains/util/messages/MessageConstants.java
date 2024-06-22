@@ -16,5 +16,8 @@ public class MessageConstants {
     public static final String FAVORITE_NOT_FOUND = "Favorite not found";
     public static final String MESOCYCLE_NOT_FOUND = "Mesocycle not found";
     public static final String MUSCLEGROUP_NOT_FOUND = "Muscle group not found";
+    public static final String CLIENT_TRAINER_NOT_FOUND = "Client-Trainer relationship not found";
+    public static final String WORKOUT_EXERCISE_NOT_FOUND = "Workout exercise not found";
+
 
 }
