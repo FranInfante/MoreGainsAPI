@@ -20,6 +20,7 @@ public class UsersMapper {
                 .bio(usersDTO.getBio())
                 .fitnessGoals(usersDTO.getFitnessGoals())
                 .isTrainer(usersDTO.getIsTrainer())
+                .isAvailable(usersDTO.getIsAvailable())
                 .privacySetting(usersDTO.getPrivacySetting())
                 .build();
     }
@@ -34,6 +35,7 @@ public class UsersMapper {
                 .bio(users.getBio())
                 .fitnessGoals(users.getFitnessGoals())
                 .isTrainer(users.getIsTrainer())
+                .isAvailable(users.getIsAvailable())
                 .privacySetting(users.getPrivacySetting())
                 .build();
     }

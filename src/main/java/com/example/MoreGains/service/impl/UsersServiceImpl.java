@@ -5,6 +5,8 @@ import com.example.MoreGains.model.entities.Users;
 import com.example.MoreGains.repository.UsersRepository;
 import com.example.MoreGains.service.UsersService;
 import com.example.MoreGains.util.UsersMapper;
+import com.example.MoreGains.util.messages.MessageConstants;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,9 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
-        usersRepository.deleteById(id);
+    public void deleteUser(Integer userId) {
+        Users user = usersRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+        user.setIsAvailable(false);
+        usersRepository.save(user);
     }
 }

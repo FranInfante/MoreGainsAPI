@@ -37,6 +37,7 @@ public class UsersDTO {
     private String bio;
     private String fitnessGoals;
     private Boolean isTrainer = false;
+    private Boolean isAvailable = true;
 
     @Column(nullable = false)
     private PrivacySetting privacySetting = PrivacySetting.PUBLIC;
