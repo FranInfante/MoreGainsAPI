@@ -13,15 +13,15 @@ public interface ExerciseApi {
     @GetMapping
     ResponseEntity<List<ExerciseDTO>> getAllExercises();
 
-    @GetMapping(UriConstants.USERS_BY_ID)
+    @GetMapping(UriConstants.BY_ID)
     ResponseEntity<ExerciseDTO> getExerciseById(@PathVariable Integer id);
 
     @PostMapping
     ResponseEntity<ExerciseDTO> createExercise(@RequestBody ExerciseDTO newExercise) throws Exception;
 
-    @DeleteMapping(UriConstants.USERS_BY_ID)
+    @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteExerciseById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.USERS_BY_ID)
+    @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateExercise(@PathVariable Integer id, @RequestBody ExerciseDTO updateExercise) throws Exception;
 }

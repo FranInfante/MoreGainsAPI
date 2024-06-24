@@ -13,15 +13,15 @@ public interface MuscleGroupApi {
     @GetMapping
     ResponseEntity<List<MuscleGroupDTO>> getAllMuscleGroups();
 
-    @GetMapping(UriConstants.MUSCLE_GROUP_BY_ID)
+    @GetMapping(UriConstants.BY_ID)
     ResponseEntity<MuscleGroupDTO> getMuscleGroupById(@PathVariable Integer id);
 
     @PostMapping
     ResponseEntity<MuscleGroupDTO> createMuscleGroup(@RequestBody MuscleGroupDTO newMuscleGroup) throws Exception;
 
-    @DeleteMapping(UriConstants.MUSCLE_GROUP_BY_ID)
+    @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteMuscleGroupById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.MUSCLE_GROUP_BY_ID)
+    @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateMuscleGroup(@PathVariable Integer id, @RequestBody MuscleGroupDTO updateMuscleGroup) throws Exception;
 }

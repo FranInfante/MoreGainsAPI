@@ -19,9 +19,9 @@ public interface WorkoutExerciseApi {
     @PostMapping
     ResponseEntity<WorkoutExerciseDTO> createWorkoutExercise(@RequestBody WorkoutExerciseDTO newWorkoutExercise) throws Exception;
 
-    @DeleteMapping(UriConstants.WORKOUT_EXERCISE_BY_ID)
+    @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteWorkoutExerciseById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.WORKOUT_EXERCISE_BY_ID)
+    @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateWorkoutExercise(@PathVariable Integer id, @RequestBody WorkoutExerciseDTO updateWorkoutExercise) throws Exception;
 }

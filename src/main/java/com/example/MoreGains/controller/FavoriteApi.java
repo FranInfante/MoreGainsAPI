@@ -13,15 +13,15 @@ public interface FavoriteApi {
     @GetMapping
     ResponseEntity<List<FavoriteDTO>> getAllFavorites();
 
-    @GetMapping(UriConstants.USERS_BY_ID)
+    @GetMapping(UriConstants.BY_ID)
     ResponseEntity<FavoriteDTO> getFavoriteById(@PathVariable Integer id);
 
     @PostMapping
     ResponseEntity<FavoriteDTO> createFavorite(@RequestBody FavoriteDTO newFavorite) throws Exception;
 
-    @DeleteMapping(UriConstants.USERS_BY_ID)
+    @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteFavoriteById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.USERS_BY_ID)
+    @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateFavorite(@PathVariable Integer id, @RequestBody FavoriteDTO updateFavorite) throws Exception;
 }

@@ -13,15 +13,15 @@ public interface MesocycleApi {
     @GetMapping
     ResponseEntity<List<MesocycleDTO>> getAllMesocycles();
 
-    @GetMapping(UriConstants.MESOCYCLE_BY_ID)
+    @GetMapping(UriConstants.BY_ID)
     ResponseEntity<MesocycleDTO> getMesocycleById(@PathVariable Integer id);
 
     @PostMapping
     ResponseEntity<MesocycleDTO> createMesocycle(@RequestBody MesocycleDTO newMesocycle) throws Exception;
 
-    @DeleteMapping(UriConstants.MESOCYCLE_BY_ID)
+    @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteMesocycleById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.MESOCYCLE_BY_ID)
+    @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateMesocycle(@PathVariable Integer id, @RequestBody MesocycleDTO updateMesocycle) throws Exception;
 }
