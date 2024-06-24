@@ -13,15 +13,15 @@ public interface WorkoutExerciseApi {
     @GetMapping
     ResponseEntity<List<WorkoutExerciseDTO>> getAllWorkoutExercises();
 
-    @GetMapping(UriConstants.BY_ID)
+    @GetMapping(UriConstants.WORKOUT_EXERCISES_FOR_WORKOUT)
     ResponseEntity<List<WorkoutExerciseDTO>> getExercisesForWorkout(@PathVariable Integer workoutId);
 
     @PostMapping
     ResponseEntity<WorkoutExerciseDTO> createWorkoutExercise(@RequestBody WorkoutExerciseDTO newWorkoutExercise) throws Exception;
 
-    @DeleteMapping(UriConstants.BY_ID)
+    @DeleteMapping(UriConstants.WORKOUT_EXERCISE_BY_ID)
     ResponseEntity<Void> deleteWorkoutExerciseById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.BY_ID)
+    @PutMapping(UriConstants.WORKOUT_EXERCISE_BY_ID)
     ResponseEntity<Void> updateWorkoutExercise(@PathVariable Integer id, @RequestBody WorkoutExerciseDTO updateWorkoutExercise) throws Exception;
 }

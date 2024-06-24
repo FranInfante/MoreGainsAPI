@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(UriConstants.USERS)
 public interface UsersApi {
 
-    @GetMapping(UriConstants.BY_ID)
+    @GetMapping(UriConstants.USERS_BY_ID)
     ResponseEntity<UsersDTO> getUserById(@PathVariable Integer id);
 
     @GetMapping
@@ -29,10 +29,10 @@ public interface UsersApi {
     @PostMapping(UriConstants.USERS_LOGIN)
     ResponseEntity<UsersDTO> loginUser(@RequestBody UsersDTO userDTO);
 
-    @DeleteMapping(UriConstants.BY_ID)
+    @DeleteMapping(UriConstants.USERS_BY_ID)
     ResponseEntity<Void> deleteUserById(@PathVariable Integer id);
 
-    @PutMapping(UriConstants.BY_ID)
+    @PutMapping(UriConstants.USERS_BY_ID)
     ResponseEntity<Void> updateUser(@PathVariable Integer id, @RequestBody UsersDTO updateUser) throws Exception;
 
     @PostMapping(UriConstants.USERS_AUTH)
