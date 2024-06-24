@@ -1,22 +1,36 @@
 package com.example.MoreGains.service.impl;
 
+import com.example.MoreGains.jwt.JwtUserDetailsService;
 import com.example.MoreGains.model.dtos.UsersDTO;
 import com.example.MoreGains.model.entities.Users;
 import com.example.MoreGains.repository.UsersRepository;
 import com.example.MoreGains.service.UsersService;
+import com.example.MoreGains.util.UserJwt;
 import com.example.MoreGains.util.UsersMapper;
+import com.example.MoreGains.util.jwt.JwtTokenUtil;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
+    private final JwtUserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public List<UsersDTO> getAllUsers() {
@@ -43,4 +57,64 @@ public class UsersServiceImpl implements UsersService {
         user.setIsAvailable(false);
         usersRepository.save(user);
     }
+    @Override
+    public Optional<UsersDTO> updateUser(Integer userId, UsersDTO updateUser) throws Exception {
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+
+        Users updatedUser = UsersMapper.userDTOToEntity(updateUser);
+
+        Users savedUser = usersRepository.save(updatedUser);
+        return Optional.of(UsersMapper.userEntityToDTO(savedUser));
+    }
+
+    @Override
+    public List<UsersDTO> searchUsersByUserName(String username){
+
+        List<Users> users = usersRepository.findUsersByUsername(username);
+        return UsersMapper.listUserEntityToDTO(users);
+
+    }
+
+    @Override
+    public Optional<UsersDTO> loginUser(String identifier, String password) {
+        Optional<Users> user = usersRepository.findByEmail(identifier)
+                .or(() -> usersRepository.findByUsernameIgnoreCase(identifier));
+
+        return user.filter(u -> password.equals(u.getPassword()))
+                .map(UsersMapper::userEntityToDTO);
+    }
+    @Override
+    public UserJwt createAuthenticationToken(UsersDTO authenticationRequest) throws Exception {
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getUsername());
+
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return UserJwt.builder()
+                .token(token)
+                .build();
+    }
+
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
+
+    @Override
+    public Optional<UsersDTO> getUserInformation() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users users = (Users) authentication.getPrincipal();
+        Optional<Users> dbUser = usersRepository.findByUsernameIgnoreCase(users.getUsername());
+
+        return Optional.ofNullable(UsersMapper.userEntityToDTO(dbUser.get()));
+    }
+
 }
