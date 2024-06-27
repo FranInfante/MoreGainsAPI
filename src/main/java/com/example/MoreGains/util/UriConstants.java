@@ -21,4 +21,7 @@ public class UriConstants {
     public static final String MESOCYCLES = "/mesocycle";
     public static final String FAVORITES = "/favorites";
     public static final String EXERCISES = "/exercises";
+    public static final String CLIENT_TRAINER = "/clienttrainer";
+    public static final String BY_TRAINER_ID = "/trainer/{trainerId}";
+    public static final String BY_CLIENT_ID = "/client/{clientId}";
 }
