@@ -3,7 +3,6 @@ package com.example.MoreGains.model.dtos;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
