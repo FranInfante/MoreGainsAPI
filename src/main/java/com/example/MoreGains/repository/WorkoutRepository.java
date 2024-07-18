@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Integer> {
+    ClassValue<Object> findByNameIgnoreCase(String day);
 }
