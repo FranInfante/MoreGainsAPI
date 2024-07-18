@@ -255,7 +255,7 @@ public class DataSeeder implements CommandLineRunner {
 
             workoutRepository.saveAll(Arrays.asList(workouts));
         });
-    }º
+    }
 
     @Transactional
     private void seedWorkoutExercises() {
