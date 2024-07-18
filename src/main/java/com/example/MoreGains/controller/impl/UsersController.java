@@ -2,6 +2,7 @@ package com.example.MoreGains.controller.impl;
 
 import com.example.MoreGains.controller.UsersApi;
 import com.example.MoreGains.model.dtos.UsersDTO;
+import com.example.MoreGains.model.enums.PrivacySetting;
 import com.example.MoreGains.service.UsersService;
 import com.example.MoreGains.util.UserJwt;
 import com.example.MoreGains.util.exceptions.UserException;
@@ -39,8 +40,11 @@ public class UsersController implements UsersApi {
 
     @Override
     public ResponseEntity<UsersDTO> createUser(UsersDTO newUser) throws Exception {
-            UsersDTO createdUser = usersService.saveUser(newUser);
-            return ResponseEntity.ok(createdUser);
+        if (newUser.getPrivacySetting() == null) {
+            newUser.setPrivacySetting(PrivacySetting.PUBLIC);
+        }
+        UsersDTO createdUser = usersService.saveUser(newUser);
+        return ResponseEntity.ok(createdUser);
     }
 
     @Override
