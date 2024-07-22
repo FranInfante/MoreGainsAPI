@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class UsersServiceImpl implements UsersService {
     private final JwtUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UsersDTO> getAllUsers() {
@@ -81,7 +83,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<Users> user = usersRepository.findByEmail(identifier)
                 .or(() -> usersRepository.findByUsernameIgnoreCase(identifier));
 
-        return user.filter(u -> password.equals(u.getPassword()))
+        return user.filter(u -> passwordEncoder.matches(password, u.getPassword()))
                 .map(UsersMapper::userEntityToDTO);
     }
     @Override
