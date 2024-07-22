@@ -60,8 +60,9 @@ public class UsersController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<UsersDTO> loginUser(UsersDTO userDTO) {
-        Optional<UsersDTO> loggedInUser = usersService.loginUser(userDTO.getEmail(), userDTO.getPassword());
+    public ResponseEntity<UsersDTO> loginUser(@RequestBody UsersDTO userDTO) {
+        String identifier = userDTO.getEmail() != null ? userDTO.getEmail() : userDTO.getUsername();
+        Optional<UsersDTO> loggedInUser = usersService.loginUser(identifier, userDTO.getPassword());
         return loggedInUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 

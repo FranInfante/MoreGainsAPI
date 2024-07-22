@@ -7,6 +7,7 @@ import com.example.MoreGains.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class DataSeeder implements CommandLineRunner {
     private final WorkoutRepository workoutRepository;
     private final WorkoutExerciseRepository workoutExerciseRepository;
     private final ClientTrainerRepository clientTrainerRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private Optional<Users> user1;
     private Optional<Users> user2;
@@ -66,7 +68,7 @@ public class DataSeeder implements CommandLineRunner {
                 Users.builder()
                         .username("user1")
                         .email("user1@example.com")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .photoUrl("url_to_user1_photo")
                         .bio("Bio for user1")
                         .fitnessGoals("Fitness goals for user1")
@@ -77,7 +79,7 @@ public class DataSeeder implements CommandLineRunner {
                 Users.builder()
                         .username("user2")
                         .email("user2@example.com")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .photoUrl("url_to_user2_photo")
                         .bio("Bio for user2")
                         .fitnessGoals("Fitness goals for user2")
@@ -88,7 +90,7 @@ public class DataSeeder implements CommandLineRunner {
                 Users.builder()
                         .username("trainer1")
                         .email("trainer1@example.com")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .photoUrl("url_to_trainer1_photo")
                         .bio("Bio for trainer1")
                         .fitnessGoals("Fitness goals for trainer1")
@@ -99,7 +101,7 @@ public class DataSeeder implements CommandLineRunner {
                 Users.builder()
                         .username("trainer2")
                         .email("trainer2@example.com")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .photoUrl("url_to_trainer2_photo")
                         .bio("Bio for trainer2")
                         .fitnessGoals("Fitness goals for trainer2")
@@ -110,7 +112,7 @@ public class DataSeeder implements CommandLineRunner {
                 Users.builder()
                         .username("client1")
                         .email("client1@example.com")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .photoUrl("url_to_client1_photo")
                         .bio("Bio for client1")
                         .fitnessGoals("Fitness goals for client1")
