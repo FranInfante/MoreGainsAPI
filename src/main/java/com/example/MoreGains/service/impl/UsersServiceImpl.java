@@ -7,6 +7,7 @@ import com.example.MoreGains.repository.UsersRepository;
 import com.example.MoreGains.service.UsersService;
 import com.example.MoreGains.util.UserJwt;
 import com.example.MoreGains.util.UsersMapper;
+import com.example.MoreGains.util.exceptions.UserException;
 import com.example.MoreGains.util.jwt.JwtTokenUtil;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
@@ -47,7 +48,14 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UsersDTO saveUser(UsersDTO userDTO) {
+    public UsersDTO saveUser(UsersDTO userDTO) throws UserException {
+        if (usersRepository.findByUsernameIgnoreCase(userDTO.getUsername()).isPresent()) {
+            throw UserException.userNameExistingException();
+        }
+        if (usersRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            throw UserException.emailExistingException();
+        }
+
         Users users = UsersMapper.userDTOToEntity(userDTO);
         Users savedUser = usersRepository.save(users);
         return UsersMapper.userEntityToDTO(savedUser);
