@@ -7,8 +7,11 @@ import com.example.MoreGains.service.UsersService;
 import com.example.MoreGains.util.UserJwt;
 import com.example.MoreGains.util.exceptions.UserException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -77,5 +80,10 @@ public class UsersController implements UsersApi {
     public ResponseEntity<UsersDTO> getUserInfo() {
         UsersDTO usersDTO = usersService.getUserInformation().get();
         return ResponseEntity.ok(usersDTO);
+    }
+    @ExceptionHandler(UserException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<String> handleUserException(UserException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 }
