@@ -121,10 +121,17 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Optional<UsersDTO> getUserInformation() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Users users = (Users) authentication.getPrincipal();
-        Optional<Users> dbUser = usersRepository.findByUsernameIgnoreCase(users.getUsername());
+        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
+            return Optional.empty();
+        }
 
-        return Optional.ofNullable(UsersMapper.userEntityToDTO(dbUser.get()));
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Users user = usersRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+
+        return Optional.of(UsersMapper.userEntityToDTO(user));
     }
 
 }
