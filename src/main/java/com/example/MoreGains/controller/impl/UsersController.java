@@ -75,7 +75,6 @@ public class UsersController implements UsersApi {
 
         return ResponseEntity.ok(userJwt);
     }
-
     @Override
     public ResponseEntity<UsersDTO> getUserInfo() {
         UsersDTO usersDTO = usersService.getUserInformation().get();
