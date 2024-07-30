@@ -96,10 +96,10 @@ public class UsersServiceImpl implements UsersService {
     }
     @Override
     public UserJwt createAuthenticationToken(UsersDTO authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        String usernameOrEmail = authenticationRequest.getUsername() != null ? authenticationRequest.getUsername() : authenticationRequest.getEmail();
+        authenticate(usernameOrEmail, authenticationRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(usernameOrEmail);
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
@@ -108,9 +108,9 @@ public class UsersServiceImpl implements UsersService {
                 .build();
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String usernameOrEmail, String password) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usernameOrEmail, password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
