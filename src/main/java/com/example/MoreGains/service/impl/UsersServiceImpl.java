@@ -98,14 +98,9 @@ public class UsersServiceImpl implements UsersService {
     public UserJwt createAuthenticationToken(UsersDTO authenticationRequest) throws Exception {
         String usernameOrEmail = authenticationRequest.getUsername() != null ? authenticationRequest.getUsername() : authenticationRequest.getEmail();
         authenticate(usernameOrEmail, authenticationRequest.getPassword());
-
         final UserDetails userDetails = userDetailsService.loadUserByUsername(usernameOrEmail);
-
         final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return UserJwt.builder()
-                .token(token)
-                .build();
+        return UserJwt.builder().token(token).build();
     }
 
     private void authenticate(String usernameOrEmail, String password) throws Exception {
