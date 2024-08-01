@@ -25,7 +25,6 @@ public interface UsersApi {
     @PostMapping
     ResponseEntity<UsersDTO> createUser(@RequestBody UsersDTO newUser) throws Exception;
 
-
     @PostMapping(UriConstants.USERS_LOGIN)
     ResponseEntity<UsersDTO> loginUser(@RequestBody UsersDTO userDTO);
 

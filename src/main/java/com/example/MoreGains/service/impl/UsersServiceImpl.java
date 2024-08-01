@@ -57,6 +57,7 @@ public class UsersServiceImpl implements UsersService {
         }
 
         Users users = UsersMapper.userDTOToEntity(userDTO);
+        users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         Users savedUser = usersRepository.save(users);
         return UsersMapper.userEntityToDTO(savedUser);
     }
