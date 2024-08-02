@@ -57,6 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_LOGIN).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_INFO).permitAll()
+                        .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll()
                         .requestMatchers(UriConstants.USERS).permitAll()
                         .anyRequest().authenticated()
                 )
