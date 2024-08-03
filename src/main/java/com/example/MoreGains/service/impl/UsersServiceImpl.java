@@ -150,12 +150,25 @@ public class UsersServiceImpl implements UsersService {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
 
-        String imageUrl = storeFile(file);
+        String imageUrl = storeFile(user.getUsername(), file);
 
         user.setPhotoUrl(imageUrl);
         usersRepository.save(user);
 
         return imageUrl;
+    }
+
+    private String storeFile(String username, MultipartFile file) throws IOException {
+        Path userUploadDir = Paths.get(UPLOAD_DIR, username);
+        if (!Files.exists(userUploadDir)) {
+            Files.createDirectories(userUploadDir);
+        }
+
+        String fileName = file.getOriginalFilename();
+        Path filePath = userUploadDir.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return "/uploads/" + username + "/" + fileName;
     }
 
     @Override
@@ -165,17 +178,4 @@ public class UsersServiceImpl implements UsersService {
         return UsersMapper.userEntityToDTO(user);
     }
 
-    private String storeFile(MultipartFile file) throws IOException {
-
-        Path uploadDir = Paths.get(UPLOAD_DIR);
-        if (!Files.exists(uploadDir)) {
-            Files.createDirectories(uploadDir);
-        }
-
-        String fileName = file.getOriginalFilename();
-        Path filePath = uploadDir.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        return filePath.toUri().toString();
-    }
 }

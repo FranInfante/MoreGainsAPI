@@ -110,5 +110,6 @@ public class UsersController implements UsersApi {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
+
     }
 }
