@@ -21,7 +21,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +40,8 @@ public class UsersServiceImpl implements UsersService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
+
+    private static final String UPLOAD_DIR = "uploads";
 
     @Override
     public List<UsersDTO> getAllUsers() {
@@ -68,23 +76,26 @@ public class UsersServiceImpl implements UsersService {
         user.setIsAvailable(false);
         usersRepository.save(user);
     }
+
     @Override
     public Optional<UsersDTO> updateUser(Integer userId, UsersDTO updateUser) throws Exception {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+        user.setUsername(updateUser.getUsername());
+        user.setEmail(updateUser.getEmail());
+        user.setBio(updateUser.getBio());
+        user.setPrivacySetting(updateUser.getPrivacySetting());
+        user.setIsAvailable(updateUser.getIsAvailable());
+        user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
 
-        Users updatedUser = UsersMapper.userDTOToEntity(updateUser);
-
-        Users savedUser = usersRepository.save(updatedUser);
+        Users savedUser = usersRepository.save(user);
         return Optional.of(UsersMapper.userEntityToDTO(savedUser));
     }
 
     @Override
-    public List<UsersDTO> searchUsersByUserName(String username){
-
+    public List<UsersDTO> searchUsersByUserName(String username) {
         List<Users> users = usersRepository.findUsersByUsername(username);
         return UsersMapper.listUserEntityToDTO(users);
-
     }
 
     @Override
@@ -95,6 +106,7 @@ public class UsersServiceImpl implements UsersService {
         return user.filter(u -> passwordEncoder.matches(password, u.getPassword()))
                 .map(UsersMapper::userEntityToDTO);
     }
+
     @Override
     public UserJwt createAuthenticationToken(UsersDTO authenticationRequest) throws Exception {
         String usernameOrEmail = authenticationRequest.getUsername() != null ? authenticationRequest.getUsername() : authenticationRequest.getEmail();
@@ -127,7 +139,43 @@ public class UsersServiceImpl implements UsersService {
         Users user = usersRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
 
-        return Optional.of(UsersMapper.userEntityToDTO(user));
+        UsersDTO userDTO = UsersMapper.userEntityToDTO(user);
+        userDTO.setPassword(user.getPassword());
+
+        return Optional.of(userDTO);
+    }
+
+    @Override
+    public String uploadProfilePicture(Integer userId, MultipartFile file) throws Exception {
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+
+        String imageUrl = storeFile(user.getUsername(), file);
+
+        user.setPhotoUrl(imageUrl);
+        usersRepository.save(user);
+
+        return imageUrl;
+    }
+
+    private String storeFile(String username, MultipartFile file) throws IOException {
+        Path userUploadDir = Paths.get(UPLOAD_DIR, username);
+        if (!Files.exists(userUploadDir)) {
+            Files.createDirectories(userUploadDir);
+        }
+
+        String fileName = file.getOriginalFilename();
+        Path filePath = userUploadDir.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return "/uploads/" + username + "/" + fileName;
+    }
+
+    @Override
+    public UsersDTO findUserByUsername(String username) {
+        Users user = usersRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+        return UsersMapper.userEntityToDTO(user);
     }
 
 }

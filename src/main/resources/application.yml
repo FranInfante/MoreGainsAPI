@@ -3,7 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/MoreGainsDB
     username: postgres
     password: 123
-
+    web:
+      resources:
+        static-locations=file:uploads/:
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -11,3 +13,5 @@ spring:
 jwt:
   secret: M2JAJzJvcXNDLyFBNjVVZn5zLXw6Rj9HOC9OKzxnejZUXElWYiRxT0hEaDV2c29HYj4=
   expiration-time: 86400
+
+

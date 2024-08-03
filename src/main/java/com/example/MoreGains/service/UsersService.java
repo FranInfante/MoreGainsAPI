@@ -4,6 +4,7 @@ import com.example.MoreGains.model.dtos.UsersDTO;
 import com.example.MoreGains.util.UserJwt;
 import com.example.MoreGains.util.exceptions.UserException;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,6 @@ public interface UsersService {
     Optional<UsersDTO> loginUser(String identifier, String password);
     UserJwt createAuthenticationToken(@RequestBody UsersDTO authenticationRequest) throws Exception;
     Optional<UsersDTO> getUserInformation();
+    String uploadProfilePicture(Integer id, MultipartFile file) throws Exception;
+    UsersDTO findUserByUsername(String username);
 }
