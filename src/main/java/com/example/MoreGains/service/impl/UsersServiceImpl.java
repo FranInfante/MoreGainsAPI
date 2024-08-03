@@ -77,6 +77,7 @@ public class UsersServiceImpl implements UsersService {
         user.setBio(updateUser.getBio());
         user.setPrivacySetting(updateUser.getPrivacySetting());
         user.setIsAvailable(updateUser.getIsAvailable());
+        user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
 
         Users savedUser = usersRepository.save(user);
         return Optional.of(UsersMapper.userEntityToDTO(savedUser));
@@ -130,7 +131,10 @@ public class UsersServiceImpl implements UsersService {
         Users user = usersRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
 
-        return Optional.of(UsersMapper.userEntityToDTO(user));
+        UsersDTO userDTO = UsersMapper.userEntityToDTO(user);
+        userDTO.setPassword(user.getPassword());
+
+        return Optional.of(userDTO);
     }
 
 }
