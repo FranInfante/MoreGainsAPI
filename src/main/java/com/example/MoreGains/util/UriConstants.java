@@ -14,6 +14,7 @@ public class UriConstants {
     public static final String USERS_LOGIN = "/login";
     public static final String USERS_AUTH = "/authenticate";
     public static final String USERS_INFO = "/information";
+    public static final String USERS_UPLOAD_PROFILE_PICTURE = "/upload-profile-picture";
     public static final String WORKOUTS = "/workouts";
     public static final String WORKOUT_EXERCISES = "/workoutexercises";
     public static final String WORKOUT_EXERCISES_FOR_WORKOUT = "/workout/{workoutId}/exercises";

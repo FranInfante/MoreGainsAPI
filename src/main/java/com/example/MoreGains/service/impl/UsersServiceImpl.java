@@ -21,7 +21,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +40,8 @@ public class UsersServiceImpl implements UsersService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
+
+    private static final String UPLOAD_DIR = "uploads";
 
     @Override
     public List<UsersDTO> getAllUsers() {
@@ -68,6 +76,7 @@ public class UsersServiceImpl implements UsersService {
         user.setIsAvailable(false);
         usersRepository.save(user);
     }
+
     @Override
     public Optional<UsersDTO> updateUser(Integer userId, UsersDTO updateUser) throws Exception {
         Users user = usersRepository.findById(userId)
@@ -84,11 +93,9 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<UsersDTO> searchUsersByUserName(String username){
-
+    public List<UsersDTO> searchUsersByUserName(String username) {
         List<Users> users = usersRepository.findUsersByUsername(username);
         return UsersMapper.listUserEntityToDTO(users);
-
     }
 
     @Override
@@ -99,6 +106,7 @@ public class UsersServiceImpl implements UsersService {
         return user.filter(u -> passwordEncoder.matches(password, u.getPassword()))
                 .map(UsersMapper::userEntityToDTO);
     }
+
     @Override
     public UserJwt createAuthenticationToken(UsersDTO authenticationRequest) throws Exception {
         String usernameOrEmail = authenticationRequest.getUsername() != null ? authenticationRequest.getUsername() : authenticationRequest.getEmail();
@@ -137,4 +145,37 @@ public class UsersServiceImpl implements UsersService {
         return Optional.of(userDTO);
     }
 
+    @Override
+    public String uploadProfilePicture(Integer userId, MultipartFile file) throws Exception {
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+
+        String imageUrl = storeFile(file);
+
+        user.setPhotoUrl(imageUrl);
+        usersRepository.save(user);
+
+        return imageUrl;
+    }
+
+    @Override
+    public UsersDTO findUserByUsername(String username) {
+        Users user = usersRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
+        return UsersMapper.userEntityToDTO(user);
+    }
+
+    private String storeFile(MultipartFile file) throws IOException {
+
+        Path uploadDir = Paths.get(UPLOAD_DIR);
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
+        }
+
+        String fileName = file.getOriginalFilename();
+        Path filePath = uploadDir.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return filePath.toUri().toString();
+    }
 }

@@ -5,6 +5,7 @@ import com.example.MoreGains.util.UserJwt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.MoreGains.util.UriConstants;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -39,4 +40,10 @@ public interface UsersApi {
 
     @GetMapping(UriConstants.USERS_INFO)
     ResponseEntity<UsersDTO> getUserInfo() throws Exception;
+
+    @PostMapping(UriConstants.USERS_UPLOAD_PROFILE_PICTURE)
+    ResponseEntity<String> uploadProfilePicture(@RequestParam("file") MultipartFile file);
+
 }
+
+
