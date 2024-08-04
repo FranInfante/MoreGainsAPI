@@ -59,6 +59,9 @@ public class UsersController implements UsersApi {
 
     @Override
     public ResponseEntity<Void> updateUser(Integer id, UsersDTO updateUser) throws Exception {
+        if (updateUser.getBio() == null && updateUser.getPrivacySetting() == null && updateUser.getPassword() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         usersService.updateUser(id, updateUser);
         return ResponseEntity.noContent().build();
     }

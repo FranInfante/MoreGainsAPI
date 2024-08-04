@@ -81,12 +81,18 @@ public class UsersServiceImpl implements UsersService {
     public Optional<UsersDTO> updateUser(Integer userId, UsersDTO updateUser) throws Exception {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
-        user.setUsername(updateUser.getUsername());
-        user.setEmail(updateUser.getEmail());
-        user.setBio(updateUser.getBio());
-        user.setPrivacySetting(updateUser.getPrivacySetting());
-        user.setIsAvailable(updateUser.getIsAvailable());
-        user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+
+        if (updateUser.getBio() != null) {
+            user.setBio(updateUser.getBio());
+        }
+
+        if (updateUser.getPrivacySetting() != null) {
+            user.setPrivacySetting(updateUser.getPrivacySetting());
+        }
+
+        if (updateUser.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        }
 
         Users savedUser = usersRepository.save(user);
         return Optional.of(UsersMapper.userEntityToDTO(savedUser));
