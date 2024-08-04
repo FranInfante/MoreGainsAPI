@@ -156,6 +156,13 @@ public class UsersServiceImpl implements UsersService {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
 
+        // Delete the old profile picture if it exists
+        if (user.getPhotoUrl() != null) {
+            Path oldFilePath = Paths.get(UPLOAD_DIR).resolve(user.getPhotoUrl().substring("/uploads/".length()));
+            Files.deleteIfExists(oldFilePath);
+        }
+
+        // Upload the new profile picture
         String imageUrl = storeFile(user.getUsername(), file);
 
         user.setPhotoUrl(imageUrl);
