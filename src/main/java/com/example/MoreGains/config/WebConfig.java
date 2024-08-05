@@ -63,11 +63,12 @@ public class WebConfig implements WebMvcConfigurer {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/uploads/**").permitAll() // Allow public access to uploads
+                        .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_LOGIN).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow pre-flight requests
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
