@@ -19,10 +19,11 @@ public class UriConstants {
     public static final String WORKOUT_EXERCISES = "/workoutexercises";
     public static final String WORKOUT_EXERCISES_FOR_WORKOUT = "/workout/{workoutId}/exercises";
     public static final String MUSCLE_GROUPS = "/musclegroups";
-    public static final String MESOCYCLES = "/mesocycle";
     public static final String FAVORITES = "/favorites";
     public static final String EXERCISES = "/exercises";
     public static final String CLIENT_TRAINER = "/clienttrainer";
     public static final String BY_TRAINER_ID = "/trainer/{trainerId}";
     public static final String BY_CLIENT_ID = "/client/{clientId}";
+    public static final String PLANS = BASE_URL + "/plans";
+    public static final String PLANS_BY_USER_ID = "/user/{userId}";
 }

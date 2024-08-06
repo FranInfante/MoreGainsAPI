@@ -25,6 +25,7 @@ public class DataSeeder implements CommandLineRunner {
     private final FavoriteRepository favoriteRepository;
     private final WorkoutRepository workoutRepository;
     private final WorkoutExerciseRepository workoutExerciseRepository;
+    private final PlanRepository planRepository;
     private final ClientTrainerRepository clientTrainerRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -49,6 +50,7 @@ public class DataSeeder implements CommandLineRunner {
         seedFavorites();
         seedWorkouts();
         seedWorkoutExercises();
+        seedPlans();
         seedClientTrainers();
     }
 
@@ -215,14 +217,36 @@ public class DataSeeder implements CommandLineRunner {
 
     @Transactional
     private void seedWorkouts() {
-        client1.ifPresent(client -> {
-            Workout[] workouts = {
-                    Workout.builder().users(client).date(LocalDate.now()).name("Leg Day").description("Leg workout focusing on quadriceps, hamstrings, and calves.").isAvailable(true).build(),
-                    Workout.builder().users(client).date(LocalDate.now().minusDays(1)).name("Back and Biceps").description("Back and biceps workout targeting back muscles and biceps.").isAvailable(true).build(),
-                    Workout.builder().users(client).date(LocalDate.now().minusDays(2)).name("Chest and Triceps").description("Chest and triceps workout focusing on chest muscles and triceps.").isAvailable(true).build()
-            };
+        user1.ifPresent(u -> {
+            Workout workout1 = Workout.builder()
+                    .user(u)
+                    .date(LocalDate.now())
+                    .name("Leg Day")
+                    .description("Leg Day Workout")
+                    .isAvailable(true)
+                    .build();
 
-            workoutRepository.saveAll(Arrays.asList(workouts));
+            workoutRepository.save(workout1);
+
+            Workout workout2 = Workout.builder()
+                    .user(u)
+                    .date(LocalDate.now().plusDays(1))
+                    .name("Back and Biceps")
+                    .description("Back and Biceps Workout")
+                    .isAvailable(true)
+                    .build();
+
+            workoutRepository.save(workout2);
+
+            Workout workout3 = Workout.builder()
+                    .user(u)
+                    .date(LocalDate.now().plusDays(2))
+                    .name("Chest and Triceps")
+                    .description("Chest and Triceps Workout")
+                    .isAvailable(true)
+                    .build();
+
+            workoutRepository.save(workout3);
         });
     }
 
@@ -275,18 +299,69 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
+    private void seedPlans() {
+        user1.ifPresent(u -> {
+            List<Workout> workouts = workoutRepository.findAllByUser(u);
+
+            Plan plan1 = Plan.builder()
+                    .name("Beginner Plan")
+                    .user(u)
+                    .build();
+            plan1.setWorkouts(Arrays.asList(workouts.get(0))); // Associate a unique workout to this plan
+            planRepository.save(plan1);
+
+            Plan plan2 = Plan.builder()
+                    .name("Intermediate Plan")
+                    .user(u)
+                    .build();
+            plan2.setWorkouts(Arrays.asList(workouts.get(1))); // Associate a unique workout to this plan
+            planRepository.save(plan2);
+        });
+
+        user2.ifPresent(u -> {
+            List<Workout> workouts = workoutRepository.findAllByUser(u);
+
+            Plan plan3 = Plan.builder()
+                    .name("Advanced Plan")
+                    .user(u)
+                    .build();
+            if (!workouts.isEmpty()) {
+                plan3.setWorkouts(Arrays.asList(workouts.get(0))); // Ensure the workout list is not empty
+            }
+            planRepository.save(plan3);
+        });
+    }
+
+    @Transactional
     private void seedClientTrainers() {
         trainer1.ifPresent(trainer -> {
             client1.ifPresent(client -> {
-                ClientTrainer[] clientTrainers = {
-                        ClientTrainer.builder().trainer(trainer).client(client).build(),
-                        ClientTrainer.builder().trainer(usersRepository.findByUsernameIgnoreCase("trainer2").orElse(null)).client(usersRepository.findByUsernameIgnoreCase("user2").orElse(null)).build(),
-                        ClientTrainer.builder().trainer(usersRepository.findByUsernameIgnoreCase("trainer2").orElse(null)).client(usersRepository.findByUsernameIgnoreCase("client1").orElse(null)).build(),
-                        ClientTrainer.builder().trainer(usersRepository.findByUsernameIgnoreCase("trainer1").orElse(null)).client(usersRepository.findByUsernameIgnoreCase("user1").orElse(null)).build(),
-                        ClientTrainer.builder().trainer(usersRepository.findByUsernameIgnoreCase("trainer1").orElse(null)).client(usersRepository.findByUsernameIgnoreCase("trainer2").orElse(null)).build()
-                };
+                ClientTrainer clientTrainer1 = ClientTrainer.builder()
+                        .trainer(trainer)
+                        .client(client)
+                        .build();
 
-                clientTrainerRepository.saveAll(Arrays.asList(clientTrainers));
+                clientTrainerRepository.save(clientTrainer1);
+            });
+
+            user1.ifPresent(client -> {
+                ClientTrainer clientTrainer2 = ClientTrainer.builder()
+                        .trainer(trainer)
+                        .client(client)
+                        .build();
+
+                clientTrainerRepository.save(clientTrainer2);
+            });
+        });
+
+        trainer2.ifPresent(trainer -> {
+            user2.ifPresent(client -> {
+                ClientTrainer clientTrainer3 = ClientTrainer.builder()
+                        .trainer(trainer)
+                        .client(client)
+                        .build();
+
+                clientTrainerRepository.save(clientTrainer3);
             });
         });
     }

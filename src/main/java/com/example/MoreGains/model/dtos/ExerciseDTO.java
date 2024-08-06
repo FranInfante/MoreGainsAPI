@@ -12,6 +12,6 @@ public class ExerciseDTO {
     private String name;
     private String description;
     private String videoUrl;
-    private Boolean isAvailable = true;
+    private Boolean isAvailable;
     private MuscleGroupDTO muscleGroup;
 }

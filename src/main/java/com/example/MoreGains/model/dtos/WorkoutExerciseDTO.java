@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class WorkoutExerciseDTO {
     private Integer id;
-    private WorkoutDTO workout;
     private ExerciseDTO exercise;
     private Integer reps;
     private Integer sets;

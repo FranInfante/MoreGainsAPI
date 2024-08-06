@@ -2,35 +2,44 @@ package com.example.MoreGains.util;
 
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.entities.Plan;
-import lombok.experimental.UtilityClass;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-@UtilityClass
 public class PlanMapper {
 
-    public Plan planDTOToEntity(PlanDTO planDTO) {
-        return Plan.builder()
-                .id(planDTO.getId())
-                .name(planDTO.getName())
-                .build();
-    }
+    public static PlanDTO planEntityToDTO(Plan plan) {
+        if (plan == null) {
+            return null;
+        }
 
-    public PlanDTO planEntityToDTO(Plan plan) {
         return PlanDTO.builder()
                 .id(plan.getId())
                 .name(plan.getName())
                 .userId(plan.getUser().getId())
-                .workouts(plan.getWorkouts().stream().map(WorkoutMapper::workoutEntityToDTO).collect(Collectors.toList()))
+                .workouts(WorkoutMapper.listWorkoutEntityToDTO(plan.getWorkouts()))
                 .build();
     }
 
-    public List<Plan> listPlanDTOToEntity(List<PlanDTO> listPlanDTO) {
-        return listPlanDTO.stream().map(PlanMapper::planDTOToEntity).collect(Collectors.toList());
+    public static Plan planDTOToEntity(PlanDTO planDTO) {
+        if (planDTO == null) {
+            return null;
+        }
+
+        Plan plan = new Plan();
+        plan.setId(planDTO.getId());
+        plan.setName(planDTO.getName());
+        plan.setWorkouts(planDTO.getWorkouts().stream()
+                .map(WorkoutMapper::workoutDTOToEntity)
+                .collect(Collectors.toList()));
+
+        return plan;
     }
 
-    public List<PlanDTO> listPlanEntityToDTO(List<Plan> listPlan) {
-        return listPlan.stream().map(PlanMapper::planEntityToDTO).collect(Collectors.toList());
+    public static List<PlanDTO> listPlanEntityToDTO(List<Plan> plans) {
+        return plans.stream().map(PlanMapper::planEntityToDTO).collect(Collectors.toList());
+    }
+
+    public static List<Plan> listPlanDTOToEntity(List<PlanDTO> planDTOs) {
+        return planDTOs.stream().map(PlanMapper::planDTOToEntity).collect(Collectors.toList());
     }
 }

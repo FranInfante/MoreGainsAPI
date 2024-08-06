@@ -19,13 +19,13 @@ public class Workout {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
+    private Users user;
 
     private LocalDate date;
     private String name;
     private String description;
     private Boolean isAvailable = true;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutExercise> workoutExercises;
 }

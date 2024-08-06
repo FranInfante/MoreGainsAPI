@@ -2,41 +2,47 @@ package com.example.MoreGains.util;
 
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.entities.Workout;
-import lombok.experimental.UtilityClass;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-@UtilityClass
 public class WorkoutMapper {
 
-    public Workout workoutDTOToEntity(WorkoutDTO workoutDTO) {
-        return Workout.builder()
-                .id(workoutDTO.getId())
-                .name(workoutDTO.getName())
-                .description(workoutDTO.getDescription())
-                .isAvailable(workoutDTO.getIsAvailable())
-                .date(workoutDTO.getDate())
-                .workoutExercises(workoutDTO.getWorkoutExercises().stream().map(WorkoutExerciseMapper::workoutExerciseDTOToEntity).collect(Collectors.toList()))
-                .build();
-    }
+    public static WorkoutDTO workoutEntityToDTO(Workout workout) {
+        if (workout == null) {
+            return null;
+        }
 
-    public WorkoutDTO workoutEntityToDTO(Workout workout) {
         return WorkoutDTO.builder()
                 .id(workout.getId())
+                .date(workout.getDate())
                 .name(workout.getName())
                 .description(workout.getDescription())
                 .isAvailable(workout.getIsAvailable())
-                .date(workout.getDate())
-                .workoutExercises(workout.getWorkoutExercises().stream().map(WorkoutExerciseMapper::workoutExerciseEntityToDTO).collect(Collectors.toList()))
+                .workoutExercises(WorkoutExerciseMapper.listWorkoutExerciseEntityToDTO(workout.getWorkoutExercises()))
                 .build();
     }
 
-    public List<Workout> listWorkoutDTOToEntity(List<WorkoutDTO> listWorkoutDTO) {
-        return listWorkoutDTO.stream().map(WorkoutMapper::workoutDTOToEntity).collect(Collectors.toList());
+    public static Workout workoutDTOToEntity(WorkoutDTO workoutDTO) {
+        if (workoutDTO == null) {
+            return null;
+        }
+
+        Workout workout = new Workout();
+        workout.setId(workoutDTO.getId());
+        workout.setDate(workoutDTO.getDate());
+        workout.setName(workoutDTO.getName());
+        workout.setDescription(workoutDTO.getDescription());
+        workout.setIsAvailable(workoutDTO.getIsAvailable());
+        workout.setWorkoutExercises(WorkoutExerciseMapper.listWorkoutExerciseDTOToEntity(workoutDTO.getWorkoutExercises()));
+
+        return workout;
     }
 
-    public List<WorkoutDTO> listWorkoutEntityToDTO(List<Workout> listWorkout) {
-        return listWorkout.stream().map(WorkoutMapper::workoutEntityToDTO).collect(Collectors.toList());
+    public static List<WorkoutDTO> listWorkoutEntityToDTO(List<Workout> workouts) {
+        return workouts.stream().map(WorkoutMapper::workoutEntityToDTO).collect(Collectors.toList());
+    }
+
+    public static List<Workout> listWorkoutDTOToEntity(List<WorkoutDTO> workoutDTOs) {
+        return workoutDTOs.stream().map(WorkoutMapper::workoutDTOToEntity).collect(Collectors.toList());
     }
 }
