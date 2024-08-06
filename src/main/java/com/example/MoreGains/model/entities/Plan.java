@@ -1,9 +1,12 @@
 package com.example.MoreGains.model.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -12,20 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Workout {
+public class Plan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
-
-    private LocalDate date;
-    private String name;
-    private String description;
-    private Boolean isAvailable = true;
+    private Users user;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkoutExercise> workoutExercises;
+    private List<Workout> workouts;
 }

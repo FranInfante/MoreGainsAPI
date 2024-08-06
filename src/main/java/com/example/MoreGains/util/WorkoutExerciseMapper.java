@@ -13,22 +13,22 @@ public class WorkoutExerciseMapper {
     public WorkoutExercise workoutExerciseDTOToEntity(WorkoutExerciseDTO workoutExerciseDTO) {
         return WorkoutExercise.builder()
                 .id(workoutExerciseDTO.getId())
+                .reps(workoutExerciseDTO.getReps())
+                .sets(workoutExerciseDTO.getSets())
+                .weight(workoutExerciseDTO.getWeight())
                 .workout(WorkoutMapper.workoutDTOToEntity(workoutExerciseDTO.getWorkout()))
                 .exercise(ExerciseMapper.exerciseDTOToEntity(workoutExerciseDTO.getExercise()))
-                .sets(workoutExerciseDTO.getSets())
-                .reps(workoutExerciseDTO.getReps())
-                .weight(workoutExerciseDTO.getWeight())
                 .build();
     }
 
     public WorkoutExerciseDTO workoutExerciseEntityToDTO(WorkoutExercise workoutExercise) {
         return WorkoutExerciseDTO.builder()
                 .id(workoutExercise.getId())
+                .reps(workoutExercise.getReps())
+                .sets(workoutExercise.getSets())
+                .weight(workoutExercise.getWeight())
                 .workout(WorkoutMapper.workoutEntityToDTO(workoutExercise.getWorkout()))
                 .exercise(ExerciseMapper.exerciseEntityToDTO(workoutExercise.getExercise()))
-                .sets(workoutExercise.getSets())
-                .reps(workoutExercise.getReps())
-                .weight(workoutExercise.getWeight())
                 .build();
     }
 

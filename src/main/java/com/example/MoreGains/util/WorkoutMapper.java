@@ -13,20 +13,22 @@ public class WorkoutMapper {
     public Workout workoutDTOToEntity(WorkoutDTO workoutDTO) {
         return Workout.builder()
                 .id(workoutDTO.getId())
-                .users(UsersMapper.userDTOToEntity(workoutDTO.getUsers()))
-                .date(workoutDTO.getDate())
                 .name(workoutDTO.getName())
                 .description(workoutDTO.getDescription())
+                .isAvailable(workoutDTO.getIsAvailable())
+                .date(workoutDTO.getDate())
+                .workoutExercises(workoutDTO.getWorkoutExercises().stream().map(WorkoutExerciseMapper::workoutExerciseDTOToEntity).collect(Collectors.toList()))
                 .build();
     }
 
     public WorkoutDTO workoutEntityToDTO(Workout workout) {
         return WorkoutDTO.builder()
                 .id(workout.getId())
-                .users(UsersMapper.userEntityToDTO(workout.getUsers()))
-                .date(workout.getDate())
                 .name(workout.getName())
                 .description(workout.getDescription())
+                .isAvailable(workout.getIsAvailable())
+                .date(workout.getDate())
+                .workoutExercises(workout.getWorkoutExercises().stream().map(WorkoutExerciseMapper::workoutExerciseEntityToDTO).collect(Collectors.toList()))
                 .build();
     }
 

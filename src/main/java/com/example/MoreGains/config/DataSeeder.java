@@ -23,7 +23,6 @@ public class DataSeeder implements CommandLineRunner {
     private final MuscleGroupRepository muscleGroupRepository;
     private final ExerciseRepository exerciseRepository;
     private final FavoriteRepository favoriteRepository;
-    private final MesocycleRepository mesocycleRepository;
     private final WorkoutRepository workoutRepository;
     private final WorkoutExerciseRepository workoutExerciseRepository;
     private final ClientTrainerRepository clientTrainerRepository;
@@ -48,7 +47,6 @@ public class DataSeeder implements CommandLineRunner {
         seedMuscleGroups();
         seedExercises();
         seedFavorites();
-        seedMesocycles();
         seedWorkouts();
         seedWorkoutExercises();
         seedClientTrainers();
@@ -212,31 +210,6 @@ public class DataSeeder implements CommandLineRunner {
             Exercise shoulderPress = exerciseRepository.findByNameIgnoreCase("Shoulder Press");
             Favorite favorite5 = Favorite.builder().users(u).exercise(shoulderPress).isAvailable(true).build();
             favoriteRepository.save(favorite5);
-        });
-    }
-
-    @Transactional
-    private void seedMesocycles() {
-        trainer1.ifPresent(trainer -> {
-            Mesocycle[] mesocycles = {
-                    Mesocycle.builder()
-                            .users(trainer)
-                            .name("Summer Shred")
-                            .startDate(LocalDate.now()).endDate(LocalDate.now().plusMonths(3))
-                            .description("Summer Shred")
-                            .isAvailable(true)
-                            .build(),
-                    Mesocycle.builder()
-                            .users(trainer)
-                            .name("Winter Bulk")
-                            .startDate(LocalDate.now().minusMonths(2))
-                            .endDate(LocalDate.now())
-                            .description("Winter Bulk")
-                            .isAvailable(true)
-                            .build()
-            };
-
-            mesocycleRepository.saveAll(Arrays.asList(mesocycles));
         });
     }
 
