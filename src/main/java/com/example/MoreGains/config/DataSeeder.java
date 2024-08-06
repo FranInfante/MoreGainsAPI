@@ -1,9 +1,9 @@
 package com.example.MoreGains.config;
 
 import com.example.MoreGains.model.entities.*;
+import com.example.MoreGains.model.enums.MuscleGroupType;
 import com.example.MoreGains.model.enums.PrivacySetting;
 import com.example.MoreGains.repository.*;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -123,11 +123,11 @@ public class DataSeeder implements CommandLineRunner {
     @Transactional
     private void seedMuscleGroups() {
         MuscleGroup[] muscleGroups = {
-                MuscleGroup.builder().name("Legs").isAvailable(true).build(),
-                MuscleGroup.builder().name("Back").isAvailable(true).build(),
-                MuscleGroup.builder().name("Chest").isAvailable(true).build(),
-                MuscleGroup.builder().name("Arms").isAvailable(true).build(),
-                MuscleGroup.builder().name("Shoulders").isAvailable(true).build()
+                MuscleGroup.builder().name(MuscleGroupType.LEGS).isAvailable(true).build(),
+                MuscleGroup.builder().name(MuscleGroupType.BACK).isAvailable(true).build(),
+                MuscleGroup.builder().name(MuscleGroupType.CHEST).isAvailable(true).build(),
+                MuscleGroup.builder().name(MuscleGroupType.ARMS).isAvailable(true).build(),
+                MuscleGroup.builder().name(MuscleGroupType.SHOULDERS).isAvailable(true).build()
         };
 
         muscleGroupRepository.saveAll(Arrays.asList(muscleGroups));
@@ -135,11 +135,11 @@ public class DataSeeder implements CommandLineRunner {
 
     @Transactional
     public void seedExercises() {
-        MuscleGroup legs = muscleGroupRepository.findByNameIgnoreCase("Legs");
-        MuscleGroup back = muscleGroupRepository.findByNameIgnoreCase("Back");
-        MuscleGroup chest = muscleGroupRepository.findByNameIgnoreCase("Chest");
-        MuscleGroup arms = muscleGroupRepository.findByNameIgnoreCase("Arms");
-        MuscleGroup shoulders = muscleGroupRepository.findByNameIgnoreCase("Shoulders");
+        MuscleGroup legs = muscleGroupRepository.findByName(MuscleGroupType.LEGS);
+        MuscleGroup back = muscleGroupRepository.findByName(MuscleGroupType.BACK);
+        MuscleGroup chest = muscleGroupRepository.findByName(MuscleGroupType.CHEST);
+        MuscleGroup arms = muscleGroupRepository.findByName(MuscleGroupType.ARMS);
+        MuscleGroup shoulders = muscleGroupRepository.findByName(MuscleGroupType.SHOULDERS);
 
         List<Exercise> exercises = Arrays.asList(
                 Exercise.builder()
@@ -184,7 +184,6 @@ public class DataSeeder implements CommandLineRunner {
 
     @Transactional
     private void seedFavorites() {
-
         user1.ifPresent(u -> {
             Exercise squat = exerciseRepository.findByNameIgnoreCase("Squats");
             Favorite favorite1 = Favorite.builder().users(u).exercise(squat).isAvailable(true).build();
@@ -304,7 +303,6 @@ public class DataSeeder implements CommandLineRunner {
 
     @Transactional
     private void seedClientTrainers() {
-        // Assume you have predefined Users objects for trainers and clients
         trainer1.ifPresent(trainer -> {
             client1.ifPresent(client -> {
                 ClientTrainer[] clientTrainers = {
