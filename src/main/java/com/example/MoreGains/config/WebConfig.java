@@ -64,10 +64,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, UriConstants.USERS).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_LOGIN).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll()
                         .requestMatchers(UriConstants.PLANS + UriConstants.PLANS_BY_USER_ID).permitAll()
+                        .requestMatchers(UriConstants.PLANS + UriConstants.BY_ID).permitAll()
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS).permitAll()
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + "/{planId}/workouts").permitAll()
                         .requestMatchers(UriConstants.PLANS).permitAll()
