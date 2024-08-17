@@ -17,7 +17,8 @@ public class WorkoutExerciseMapper {
                 .reps(workoutExercise.getReps())
                 .sets(workoutExercise.getSets())
                 .weight(workoutExercise.getWeight())
-                .exercise(ExerciseMapper.exerciseEntityToDTO(workoutExercise.getExercise()))
+                .exerciseName(workoutExercise.getExercise().getName())
+                .workoutId(workoutExercise.getWorkout().getId())
                 .build();
     }
 
@@ -31,7 +32,6 @@ public class WorkoutExerciseMapper {
         workoutExercise.setReps(workoutExerciseDTO.getReps());
         workoutExercise.setSets(workoutExerciseDTO.getSets());
         workoutExercise.setWeight(workoutExerciseDTO.getWeight());
-        workoutExercise.setExercise(ExerciseMapper.exerciseDTOToEntity(workoutExerciseDTO.getExercise()));
 
         return workoutExercise;
     }

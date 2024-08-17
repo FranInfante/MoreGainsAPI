@@ -2,7 +2,8 @@ package com.example.MoreGains.service;
 
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
-import org.springframework.web.multipart.MultipartFile;
+import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
+import com.example.MoreGains.model.entities.WorkoutExercise;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface PlanService {
     List<PlanDTO> getPlansByUserId(Integer userId);
     Optional<PlanDTO> updatePlan(Integer id, PlanDTO updatePlan) throws Exception;
     PlanDTO addWorkoutToPlan(Integer planId, WorkoutDTO workoutDTO) throws Exception;
+    void deleteWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception;
+    WorkoutExerciseDTO getWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception;
 }

@@ -2,13 +2,17 @@ package com.example.MoreGains.service.impl;
 
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
+import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.model.entities.Plan;
 import com.example.MoreGains.model.entities.Users;
 import com.example.MoreGains.model.entities.Workout;
+import com.example.MoreGains.model.entities.WorkoutExercise;
 import com.example.MoreGains.repository.PlanRepository;
 import com.example.MoreGains.repository.UsersRepository;
+import com.example.MoreGains.repository.WorkoutExerciseRepository;
 import com.example.MoreGains.service.PlanService;
 import com.example.MoreGains.util.PlanMapper;
+import com.example.MoreGains.util.WorkoutExerciseMapper;
 import com.example.MoreGains.util.WorkoutMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +30,7 @@ public class PlanServiceImpl implements PlanService {
 
     private final PlanRepository planRepository;
     private final UsersRepository usersRepository;
+    private final WorkoutExerciseRepository workoutExerciseRepository;
 
     @Override
     public List<PlanDTO> getAllPlans() {
@@ -36,19 +41,18 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public PlanDTO getPlanById(Integer id) {
         Plan plan = planRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Plan not found"));
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
         return PlanMapper.planEntityToDTO(plan);
     }
 
     @Override
     public PlanDTO savePlan(PlanDTO planDTO) {
         Users user = usersRepository.findById(planDTO.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.USER_NOT_FOUND));
 
         Plan plan = PlanMapper.planDTOToEntity(planDTO);
         plan.setUser(user);
 
-        // Set the user for each workout in the plan if workouts are provided
         if (plan.getWorkouts() != null) {
             plan.getWorkouts().forEach(workout -> workout.setUser(user));
         }
@@ -66,13 +70,12 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Optional<PlanDTO> updatePlan(Integer id, PlanDTO updatePlan) throws Exception {
         Plan plan = planRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Plan not found"));
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
 
         if (updatePlan.getName() != null) {
             plan.setName(updatePlan.getName());
         }
 
-        // Update workouts and ensure the user is set
         plan.setWorkouts(updatePlan.getWorkouts().stream().map(workoutDTO -> {
             Workout workout = WorkoutMapper.workoutDTOToEntity(workoutDTO);
             workout.setUser(plan.getUser());
@@ -86,7 +89,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public void deletePlan(Integer planId) {
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new EntityNotFoundException("Plan not found"));
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
         planRepository.delete(plan);
     }
 
@@ -108,5 +111,42 @@ public class PlanServiceImpl implements PlanService {
 
         Plan savedPlan = planRepository.save(plan);
         return PlanMapper.planEntityToDTO(savedPlan);
+    }
+
+    @Override
+    public void deleteWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
+
+        Workout workout = plan.getWorkouts().stream()
+                .filter(w -> w.getId().equals(workoutId))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
+
+        WorkoutExercise workoutExercise = workout.getWorkoutExercises().stream()
+                .filter(we -> we.getId().equals(exerciseId))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_EXERCISE_NOT_FOUND));
+
+        workout.getWorkoutExercises().remove(workoutExercise);
+        workoutExerciseRepository.delete(workoutExercise);
+    }
+
+    @Override
+    public WorkoutExerciseDTO getWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
+
+        Workout workout = plan.getWorkouts().stream()
+                .filter(w -> w.getId().equals(workoutId))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
+
+        WorkoutExercise workoutExercise = workout.getWorkoutExercises().stream()
+                .filter(we -> we.getId().equals(exerciseId))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_EXERCISE_NOT_FOUND));
+
+        return WorkoutExerciseMapper.workoutExerciseEntityToDTO(workoutExercise);
     }
 }

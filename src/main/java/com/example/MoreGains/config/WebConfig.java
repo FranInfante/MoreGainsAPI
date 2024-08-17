@@ -29,6 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**")
@@ -68,10 +69,13 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_LOGIN).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll()
                         .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll()
+                        .requestMatchers(HttpMethod.GET, UriConstants.PLANS + "/**").permitAll()
                         .requestMatchers(UriConstants.PLANS + UriConstants.PLANS_BY_USER_ID).permitAll()
                         .requestMatchers(UriConstants.PLANS + UriConstants.BY_ID).permitAll()
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS).permitAll()
-                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + "/{planId}/workouts").permitAll()
+                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUTS_IN_PLAN).permitAll()
+                        .requestMatchers(HttpMethod.GET, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll()
                         .requestMatchers(UriConstants.PLANS).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

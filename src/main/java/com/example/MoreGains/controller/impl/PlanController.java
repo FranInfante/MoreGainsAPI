@@ -3,6 +3,7 @@ package com.example.MoreGains.controller.impl;
 import com.example.MoreGains.controller.PlanApi;
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
+import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.service.PlanService;
 import com.example.MoreGains.util.UriConstants;
 import com.example.MoreGains.util.messages.MessageConstants;
@@ -60,5 +61,23 @@ public class PlanController implements PlanApi {
     public ResponseEntity<PlanDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception {
         PlanDTO updatedPlan = planService.addWorkoutToPlan(planId, workoutDTO);
         return ResponseEntity.ok(updatedPlan);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteWorkoutExercise(
+            @PathVariable Integer planId,
+            @PathVariable Integer workoutId,
+            @PathVariable Integer exerciseId) throws Exception {
+        planService.deleteWorkoutExercise(planId, workoutId, exerciseId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<WorkoutExerciseDTO> getWorkoutExercise(
+            @PathVariable Integer planId,
+            @PathVariable Integer workoutId,
+            @PathVariable Integer exerciseId) throws Exception {
+        WorkoutExerciseDTO workoutExerciseDTO = planService.getWorkoutExercise(planId, workoutId, exerciseId);
+        return ResponseEntity.ok(workoutExerciseDTO);
     }
 }

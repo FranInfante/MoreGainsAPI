@@ -2,6 +2,7 @@ package com.example.MoreGains.controller;
 
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
+import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.util.UriConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,4 +32,10 @@ public interface PlanApi {
 
     @PostMapping("/{planId}/workouts")
     ResponseEntity<PlanDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception;
+
+    @DeleteMapping("/{planId}/workout/{workoutId}/exercise/{exerciseId}")
+    ResponseEntity<Void> deleteWorkoutExercise(@PathVariable Integer planId, @PathVariable Integer workoutId, @PathVariable Integer exerciseId) throws Exception;
+
+    @GetMapping(UriConstants.WORKOUT_EXERCISE_IN_PLAN)
+    ResponseEntity<WorkoutExerciseDTO> getWorkoutExercise(@PathVariable Integer planId, @PathVariable Integer workoutId, @PathVariable Integer exerciseId) throws Exception;
 }
