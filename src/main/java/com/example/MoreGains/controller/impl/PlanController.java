@@ -64,6 +64,12 @@ public class PlanController implements PlanApi {
     }
 
     @Override
+    public ResponseEntity<WorkoutDTO> addExerciseToWorkout(@PathVariable Integer planId, @PathVariable Integer workoutId, @RequestBody WorkoutExerciseDTO exerciseDTO) throws Exception {
+        WorkoutDTO updatedWorkout = planService.addExerciseToWorkout(planId, workoutId, exerciseDTO);
+        return ResponseEntity.ok(updatedWorkout);
+    }
+
+    @Override
     public ResponseEntity<Void> deleteWorkoutExercise(
             @PathVariable Integer planId,
             @PathVariable Integer workoutId,

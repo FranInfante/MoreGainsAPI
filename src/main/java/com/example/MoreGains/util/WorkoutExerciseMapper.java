@@ -18,7 +18,6 @@ public class WorkoutExerciseMapper {
                 .sets(workoutExercise.getSets())
                 .weight(workoutExercise.getWeight())
                 .exerciseName(workoutExercise.getExercise().getName())
-                .workoutId(workoutExercise.getWorkout().getId())
                 .build();
     }
 

@@ -185,33 +185,43 @@ public class DataSeeder implements CommandLineRunner {
     @Transactional
     private void seedFavorites() {
         user1.ifPresent(u -> {
-            Exercise squat = exerciseRepository.findByNameIgnoreCase("Squats");
-            Favorite favorite1 = Favorite.builder().users(u).exercise(squat).isAvailable(true).build();
-            favoriteRepository.save(favorite1);
+            Optional<Exercise> squat = exerciseRepository.findByNameIgnoreCase("Squats");
+            squat.ifPresent(exercise -> {
+                Favorite favorite1 = Favorite.builder().users(u).exercise(exercise).isAvailable(true).build();
+                favoriteRepository.save(favorite1);
+            });
         });
 
         user2.ifPresent(u -> {
-            Exercise deadlifts = exerciseRepository.findByNameIgnoreCase("Deadlifts");
-            Favorite favorite2 = Favorite.builder().users(u).exercise(deadlifts).isAvailable(true).build();
-            favoriteRepository.save(favorite2);
+            Optional<Exercise> deadlifts = exerciseRepository.findByNameIgnoreCase("Deadlifts");
+            deadlifts.ifPresent(exercise -> {
+                Favorite favorite2 = Favorite.builder().users(u).exercise(exercise).isAvailable(true).build();
+                favoriteRepository.save(favorite2);
+            });
         });
 
         client1.ifPresent(u -> {
-            Exercise benchPress = exerciseRepository.findByNameIgnoreCase("Bench Press");
-            Favorite favorite3 = Favorite.builder().users(u).exercise(benchPress).isAvailable(true).build();
-            favoriteRepository.save(favorite3);
+            Optional<Exercise> benchPress = exerciseRepository.findByNameIgnoreCase("Bench Press");
+            benchPress.ifPresent(exercise -> {
+                Favorite favorite3 = Favorite.builder().users(u).exercise(exercise).isAvailable(true).build();
+                favoriteRepository.save(favorite3);
+            });
         });
 
         trainer1.ifPresent(u -> {
-            Exercise bicepCurls = exerciseRepository.findByNameIgnoreCase("Bicep Curls");
-            Favorite favorite4 = Favorite.builder().users(u).exercise(bicepCurls).isAvailable(true).build();
-            favoriteRepository.save(favorite4);
+            Optional<Exercise> bicepCurls = exerciseRepository.findByNameIgnoreCase("Bicep Curls");
+            bicepCurls.ifPresent(exercise -> {
+                Favorite favorite4 = Favorite.builder().users(u).exercise(exercise).isAvailable(true).build();
+                favoriteRepository.save(favorite4);
+            });
         });
 
         trainer2.ifPresent(u -> {
-            Exercise shoulderPress = exerciseRepository.findByNameIgnoreCase("Shoulder Press");
-            Favorite favorite5 = Favorite.builder().users(u).exercise(shoulderPress).isAvailable(true).build();
-            favoriteRepository.save(favorite5);
+            Optional<Exercise> shoulderPress = exerciseRepository.findByNameIgnoreCase("Shoulder Press");
+            shoulderPress.ifPresent(exercise -> {
+                Favorite favorite5 = Favorite.builder().users(u).exercise(exercise).isAvailable(true).build();
+                favoriteRepository.save(favorite5);
+            });
         });
     }
 
@@ -252,13 +262,13 @@ public class DataSeeder implements CommandLineRunner {
 
     @Transactional
     private void seedWorkoutExercises() {
-        Workout legDay = workoutRepository.findByNameIgnoreCase("Leg Day");
-        Exercise squats = exerciseRepository.findByNameIgnoreCase("Squats");
+        Optional<Workout> legDay = workoutRepository.findByNameIgnoreCase("Leg Day");
+        Optional<Exercise> squats = exerciseRepository.findByNameIgnoreCase("Squats");
 
-        if (legDay != null && squats != null) {
+        if (legDay.isPresent() && squats.isPresent()) {
             WorkoutExercise legDaySquats = WorkoutExercise.builder()
-                    .workout(legDay)
-                    .exercise(squats)
+                    .workout(legDay.get())
+                    .exercise(squats.get())
                     .sets(4)
                     .reps(10)
                     .weight(100.0)
@@ -267,13 +277,13 @@ public class DataSeeder implements CommandLineRunner {
             workoutExerciseRepository.save(legDaySquats);
         }
 
-        Workout backAndBiceps = workoutRepository.findByNameIgnoreCase("Back and Biceps");
-        Exercise deadlifts = exerciseRepository.findByNameIgnoreCase("Deadlifts");
+        Optional<Workout> backAndBiceps = workoutRepository.findByNameIgnoreCase("Back and Biceps");
+        Optional<Exercise> deadlifts = exerciseRepository.findByNameIgnoreCase("Deadlifts");
 
-        if (backAndBiceps != null && deadlifts != null) {
+        if (backAndBiceps.isPresent() && deadlifts.isPresent()) {
             WorkoutExercise backAndBicepsDeadlifts = WorkoutExercise.builder()
-                    .workout(backAndBiceps)
-                    .exercise(deadlifts)
+                    .workout(backAndBiceps.get())
+                    .exercise(deadlifts.get())
                     .sets(3)
                     .reps(12)
                     .weight(120.0)
@@ -282,13 +292,13 @@ public class DataSeeder implements CommandLineRunner {
             workoutExerciseRepository.save(backAndBicepsDeadlifts);
         }
 
-        Workout chestAndTriceps = workoutRepository.findByNameIgnoreCase("Chest and Triceps");
-        Exercise benchPress = exerciseRepository.findByNameIgnoreCase("Bench Press");
+        Optional<Workout> chestAndTriceps = workoutRepository.findByNameIgnoreCase("Chest and Triceps");
+        Optional<Exercise> benchPress = exerciseRepository.findByNameIgnoreCase("Bench Press");
 
-        if (chestAndTriceps != null && benchPress != null) {
+        if (chestAndTriceps.isPresent() && benchPress.isPresent()) {
             WorkoutExercise chestAndTricepsBenchPress = WorkoutExercise.builder()
-                    .workout(chestAndTriceps)
-                    .exercise(benchPress)
+                    .workout(chestAndTriceps.get())
+                    .exercise(benchPress.get())
                     .sets(4)
                     .reps(8)
                     .weight(80.0)
@@ -307,14 +317,18 @@ public class DataSeeder implements CommandLineRunner {
                     .name("Beginner Plan")
                     .user(u)
                     .build();
-            plan1.setWorkouts(Arrays.asList(workouts.get(0))); // Associate a unique workout to this plan
+            if (!workouts.isEmpty()) {
+                plan1.setWorkouts(Arrays.asList(workouts.get(0))); // Associate a unique workout to this plan
+            }
             planRepository.save(plan1);
 
             Plan plan2 = Plan.builder()
                     .name("Intermediate Plan")
                     .user(u)
                     .build();
-            plan2.setWorkouts(Arrays.asList(workouts.get(1))); // Associate a unique workout to this plan
+            if (workouts.size() > 1) {
+                plan2.setWorkouts(Arrays.asList(workouts.get(1))); // Associate a unique workout to this plan
+            }
             planRepository.save(plan2);
         });
 

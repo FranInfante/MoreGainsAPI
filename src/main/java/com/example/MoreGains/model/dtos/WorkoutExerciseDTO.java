@@ -13,5 +13,4 @@ public class WorkoutExerciseDTO {
     private Integer reps;
     private Integer sets;
     private Double weight;
-    private Integer workoutId;
 }

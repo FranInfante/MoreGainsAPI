@@ -3,7 +3,6 @@ package com.example.MoreGains.service;
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
-import com.example.MoreGains.model.entities.WorkoutExercise;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +17,5 @@ public interface PlanService {
     PlanDTO addWorkoutToPlan(Integer planId, WorkoutDTO workoutDTO) throws Exception;
     void deleteWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception;
     WorkoutExerciseDTO getWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception;
+    WorkoutDTO addExerciseToWorkout(Integer planId, Integer workoutId, WorkoutExerciseDTO exerciseDTO) throws Exception;
 }

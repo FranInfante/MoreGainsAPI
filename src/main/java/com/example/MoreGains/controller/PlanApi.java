@@ -30,10 +30,13 @@ public interface PlanApi {
     @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deletePlan(@PathVariable Integer id);
 
-    @PostMapping("/{planId}/workouts")
+    @PostMapping(UriConstants.WORKOUTS_IN_PLAN)
     ResponseEntity<PlanDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception;
 
-    @DeleteMapping("/{planId}/workout/{workoutId}/exercise/{exerciseId}")
+    @PostMapping(UriConstants.WORKOUT_EXERCISES_IN_PLAN)
+    ResponseEntity<WorkoutDTO> addExerciseToWorkout(@PathVariable Integer planId, @PathVariable Integer workoutId, @RequestBody WorkoutExerciseDTO exerciseDTO) throws Exception;
+
+    @DeleteMapping(UriConstants.WORKOUT_EXERCISE_IN_PLAN)
     ResponseEntity<Void> deleteWorkoutExercise(@PathVariable Integer planId, @PathVariable Integer workoutId, @PathVariable Integer exerciseId) throws Exception;
 
     @GetMapping(UriConstants.WORKOUT_EXERCISE_IN_PLAN)

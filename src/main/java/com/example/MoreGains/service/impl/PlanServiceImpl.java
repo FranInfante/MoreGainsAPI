@@ -3,13 +3,8 @@ package com.example.MoreGains.service.impl;
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
-import com.example.MoreGains.model.entities.Plan;
-import com.example.MoreGains.model.entities.Users;
-import com.example.MoreGains.model.entities.Workout;
-import com.example.MoreGains.model.entities.WorkoutExercise;
-import com.example.MoreGains.repository.PlanRepository;
-import com.example.MoreGains.repository.UsersRepository;
-import com.example.MoreGains.repository.WorkoutExerciseRepository;
+import com.example.MoreGains.model.entities.*;
+import com.example.MoreGains.repository.*;
 import com.example.MoreGains.service.PlanService;
 import com.example.MoreGains.util.PlanMapper;
 import com.example.MoreGains.util.WorkoutExerciseMapper;
@@ -30,7 +25,9 @@ public class PlanServiceImpl implements PlanService {
 
     private final PlanRepository planRepository;
     private final UsersRepository usersRepository;
+    private final WorkoutRepository workoutRepository;
     private final WorkoutExerciseRepository workoutExerciseRepository;
+    private final ExerciseRepository exerciseRepository;
 
     @Override
     public List<PlanDTO> getAllPlans() {
@@ -118,14 +115,10 @@ public class PlanServiceImpl implements PlanService {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
 
-        Workout workout = plan.getWorkouts().stream()
-                .filter(w -> w.getId().equals(workoutId))
-                .findFirst()
+        Workout workout = workoutRepository.findById(workoutId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
 
-        WorkoutExercise workoutExercise = workout.getWorkoutExercises().stream()
-                .filter(we -> we.getId().equals(exerciseId))
-                .findFirst()
+        WorkoutExercise workoutExercise = workoutExerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_EXERCISE_NOT_FOUND));
 
         workout.getWorkoutExercises().remove(workoutExercise);
@@ -137,16 +130,45 @@ public class PlanServiceImpl implements PlanService {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
 
-        Workout workout = plan.getWorkouts().stream()
-                .filter(w -> w.getId().equals(workoutId))
-                .findFirst()
+        Workout workout = workoutRepository.findById(workoutId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
 
-        WorkoutExercise workoutExercise = workout.getWorkoutExercises().stream()
-                .filter(we -> we.getId().equals(exerciseId))
-                .findFirst()
+        WorkoutExercise workoutExercise = workoutExerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_EXERCISE_NOT_FOUND));
 
         return WorkoutExerciseMapper.workoutExerciseEntityToDTO(workoutExercise);
     }
+
+    @Override
+    public WorkoutDTO addExerciseToWorkout(Integer planId, Integer workoutId, WorkoutExerciseDTO exerciseDTO) throws Exception {
+
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
+
+        Workout workout = workoutRepository.findById(workoutId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
+
+
+        Exercise exercise = exerciseRepository.findByNameIgnoreCase(exerciseDTO.getExerciseName())
+                .orElseGet(() -> {
+                    Exercise newExercise = new Exercise();
+                    newExercise.setName(exerciseDTO.getExerciseName());
+                    newExercise.setIsAvailable(true);
+                    return exerciseRepository.save(newExercise);
+                });
+
+
+        WorkoutExercise workoutExercise = WorkoutExerciseMapper.workoutExerciseDTOToEntity(exerciseDTO);
+        workoutExercise.setExercise(exercise);
+        workoutExercise.setWorkout(workout);
+
+
+        workout.getWorkoutExercises().add(workoutExercise);
+
+        workoutExerciseRepository.save(workoutExercise);
+        workoutRepository.save(workout);
+
+        return WorkoutMapper.workoutEntityToDTO(workout);
+    }
+
 }
