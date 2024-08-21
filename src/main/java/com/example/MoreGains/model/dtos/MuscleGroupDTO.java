@@ -1,5 +1,6 @@
 package com.example.MoreGains.model.dtos;
 
+import com.example.MoreGains.model.enums.MuscleGroupType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,6 @@ public class MuscleGroupDTO {
     private Integer id;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    private MuscleGroupType name;
     private Boolean isAvailable = true;
 }

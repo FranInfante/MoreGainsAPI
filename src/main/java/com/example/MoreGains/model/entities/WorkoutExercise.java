@@ -1,16 +1,8 @@
 package com.example.MoreGains.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
@@ -25,13 +17,14 @@ public class WorkoutExercise {
 
     @ManyToOne
     @JoinColumn(name = "workout_id", nullable = false)
+    @JsonIgnore
     private Workout workout;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
-    private Integer sets;
     private Integer reps;
+    private Integer sets;
     private Double weight;
 }

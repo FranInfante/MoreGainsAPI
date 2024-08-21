@@ -1,17 +1,10 @@
 package com.example.MoreGains.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,10 +19,13 @@ public class Workout {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
+    private Users user;
 
     private LocalDate date;
     private String name;
     private String description;
     private Boolean isAvailable = true;
+
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkoutExercise> workoutExercises;
 }
