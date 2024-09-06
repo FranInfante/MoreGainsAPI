@@ -14,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -99,6 +100,10 @@ public class PlanServiceImpl implements PlanService {
 
         Workout workout = WorkoutMapper.workoutDTOToEntity(workoutDTO);
         workout.setUser(user);
+
+        if (workout.getDate() == null) {
+            workout.setDate(LocalDate.now());
+        }
 
         if (workout.getDescription() == null) {
 

@@ -35,12 +35,13 @@ public class WorkoutMapper {
         if (workoutDTO.getId() != null) {
             workout.setId(workoutDTO.getId());
         }
-        if (workoutDTO.getDate() != null) {
-            workout.setDate(workoutDTO.getDate());
-        }
+        workout.setDate(workoutDTO.getDate());
+
         if (workoutDTO.getName() == null || workoutDTO.getName().isEmpty()) {
             throw new IllegalArgumentException(NULL_WORKOUT_NAME);
         }
+        workout.setName(workoutDTO.getName()); // Ensure this line is correctly setting the name
+
         if (workoutDTO.getDescription() != null) {
             workout.setDescription(workoutDTO.getDescription());
         }
