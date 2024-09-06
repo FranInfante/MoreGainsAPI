@@ -92,7 +92,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public PlanDTO addWorkoutToPlan(Integer planId, WorkoutDTO workoutDTO) throws Exception {
+    public WorkoutDTO addWorkoutToPlan(Integer planId, WorkoutDTO workoutDTO) throws Exception {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
 
@@ -106,14 +106,11 @@ public class PlanServiceImpl implements PlanService {
         }
 
         if (workout.getDescription() == null) {
-
             workout.setDescription(null);
-
         }
+
         if (workout.getWorkoutExercises() == null) {
-
             workout.setWorkoutExercises(null);
-
         }
 
         if (plan.getWorkouts() == null) {
@@ -122,8 +119,11 @@ public class PlanServiceImpl implements PlanService {
 
         plan.getWorkouts().add(workout);
 
-        Plan savedPlan = planRepository.save(plan);
-        return PlanMapper.planEntityToDTO(savedPlan);
+        workoutRepository.save(workout); // Save the new workout separately if needed
+
+        Plan savedPlan = planRepository.save(plan); // Optionally save the plan, though not required to return the workout
+
+        return WorkoutMapper.workoutEntityToDTO(workout); // Return the new workout
     }
 
     @Override

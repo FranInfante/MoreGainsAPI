@@ -31,7 +31,7 @@ public interface PlanApi {
     ResponseEntity<Void> deletePlan(@PathVariable Integer id);
 
     @PostMapping(UriConstants.WORKOUTS_IN_PLAN)
-    ResponseEntity<PlanDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception;
+    ResponseEntity<WorkoutDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception;
 
     @PostMapping(UriConstants.WORKOUT_EXERCISE_IN_PLAN_CREATE)
     ResponseEntity<WorkoutDTO> addExerciseToWorkout(@PathVariable Integer planId, @PathVariable Integer workoutId, @RequestBody WorkoutExerciseDTO exerciseDTO) throws Exception;

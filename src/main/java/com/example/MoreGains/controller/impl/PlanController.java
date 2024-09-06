@@ -58,9 +58,9 @@ public class PlanController implements PlanApi {
     }
 
     @Override
-    public ResponseEntity<PlanDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception {
-        PlanDTO updatedPlan = planService.addWorkoutToPlan(planId, workoutDTO);
-        return ResponseEntity.ok(updatedPlan);
+    public ResponseEntity<WorkoutDTO> addWorkoutToPlan(@PathVariable Integer planId, @RequestBody WorkoutDTO workoutDTO) throws Exception {
+        WorkoutDTO newWorkout = planService.addWorkoutToPlan(planId, workoutDTO);
+        return ResponseEntity.ok(newWorkout);
     }
 
     @Override
