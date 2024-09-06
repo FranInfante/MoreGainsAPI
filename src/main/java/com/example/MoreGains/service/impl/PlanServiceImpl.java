@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
+
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
@@ -101,6 +103,8 @@ public class PlanServiceImpl implements PlanService {
         Workout workout = WorkoutMapper.workoutDTOToEntity(workoutDTO);
         workout.setUser(user);
 
+        workout.setName(capitalizeFirstLetter(workout.getName()));
+
         if (workout.getDate() == null) {
             workout.setDate(LocalDate.now());
         }
@@ -119,11 +123,11 @@ public class PlanServiceImpl implements PlanService {
 
         plan.getWorkouts().add(workout);
 
-        workoutRepository.save(workout); // Save the new workout separately if needed
+        workoutRepository.save(workout);
 
-        Plan savedPlan = planRepository.save(plan); // Optionally save the plan, though not required to return the workout
+        Plan savedPlan = planRepository.save(plan);
 
-        return WorkoutMapper.workoutEntityToDTO(workout); // Return the new workout
+        return WorkoutMapper.workoutEntityToDTO(workout);
     }
 
     @Override
