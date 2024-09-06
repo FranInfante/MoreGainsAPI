@@ -41,4 +41,5 @@ public class UriConstants {
     public static final String WORKOUTS_IN_PLAN = "/{planId}/workouts";
     public static final String WORKOUT_EXERCISE_IN_PLAN = "/{planId}/workout/{workoutId}/exercise/{exerciseId}";
     public static final String WORKOUT_EXERCISE_IN_PLAN_CREATE = "/{planId}/workouts/{workoutId}/exercise";
+    public static final String WORKOUT_IN_PLAN_CREATE = "/{planId}/workouts";
 }

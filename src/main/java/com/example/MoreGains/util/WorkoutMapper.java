@@ -2,8 +2,12 @@ package com.example.MoreGains.util;
 
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.entities.Workout;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.MoreGains.util.messages.MessageConstants.NULL_WORKOUT_NAME;
 
 public class WorkoutMapper {
 
@@ -28,13 +32,26 @@ public class WorkoutMapper {
         }
 
         Workout workout = new Workout();
-        workout.setId(workoutDTO.getId());
-        workout.setDate(workoutDTO.getDate());
-        workout.setName(workoutDTO.getName());
-        workout.setDescription(workoutDTO.getDescription());
-        workout.setIsAvailable(workoutDTO.getIsAvailable());
-        workout.setWorkoutExercises(WorkoutExerciseMapper.listWorkoutExerciseDTOToEntity(workoutDTO.getWorkoutExercises()));
-
+        if (workoutDTO.getId() != null) {
+            workout.setId(workoutDTO.getId());
+        }
+        if (workoutDTO.getDate() != null) {
+            workout.setDate(workoutDTO.getDate());
+        }
+        if (workoutDTO.getName() == null || workoutDTO.getName().isEmpty()) {
+            throw new IllegalArgumentException(NULL_WORKOUT_NAME);
+        }
+        if (workoutDTO.getDescription() != null) {
+            workout.setDescription(workoutDTO.getDescription());
+        }
+        if (workoutDTO.getIsAvailable() != null) {
+            workout.setIsAvailable(workoutDTO.getIsAvailable());
+        }
+        if (workoutDTO.getWorkoutExercises() != null) {
+            workout.setWorkoutExercises(WorkoutExerciseMapper.listWorkoutExerciseDTOToEntity(workoutDTO.getWorkoutExercises()));
+        } else {
+            workout.setWorkoutExercises(new ArrayList<>()); // Default to empty list if not provided
+        }
         return workout;
     }
 

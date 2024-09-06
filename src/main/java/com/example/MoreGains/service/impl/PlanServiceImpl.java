@@ -100,6 +100,17 @@ public class PlanServiceImpl implements PlanService {
         Workout workout = WorkoutMapper.workoutDTOToEntity(workoutDTO);
         workout.setUser(user);
 
+        if (workout.getDescription() == null) {
+
+            workout.setDescription(null);
+
+        }
+        if (workout.getWorkoutExercises() == null) {
+
+            workout.setWorkoutExercises(null);
+
+        }
+
         if (plan.getWorkouts() == null) {
             plan.setWorkouts(new ArrayList<>());
         }

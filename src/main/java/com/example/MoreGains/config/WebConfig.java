@@ -87,6 +87,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll() // Delete workout exercise in plan
                         .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.BY_ID).permitAll() // Delete plan by ID
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN_CREATE).permitAll() // Add exercise to workout in plan
+                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_CREATE).permitAll()
                         .requestMatchers(UriConstants.PLANS).permitAll() // Access all plans endpoint
 
                         // Allow access to exercise-related endpoints
