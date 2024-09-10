@@ -14,10 +14,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
 
 @Service
 @RequiredArgsConstructor
@@ -91,7 +94,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public PlanDTO addWorkoutToPlan(Integer planId, WorkoutDTO workoutDTO) throws Exception {
+    public WorkoutDTO addWorkoutToPlan(Integer planId, WorkoutDTO workoutDTO) throws Exception {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
 
@@ -100,14 +103,31 @@ public class PlanServiceImpl implements PlanService {
         Workout workout = WorkoutMapper.workoutDTOToEntity(workoutDTO);
         workout.setUser(user);
 
+        workout.setName(capitalizeFirstLetter(workout.getName()));
+
+        if (workout.getDate() == null) {
+            workout.setDate(LocalDate.now());
+        }
+
+        if (workout.getDescription() == null) {
+            workout.setDescription(null);
+        }
+
+        if (workout.getWorkoutExercises() == null) {
+            workout.setWorkoutExercises(null);
+        }
+
         if (plan.getWorkouts() == null) {
             plan.setWorkouts(new ArrayList<>());
         }
 
         plan.getWorkouts().add(workout);
 
+        workoutRepository.save(workout);
+
         Plan savedPlan = planRepository.save(plan);
-        return PlanMapper.planEntityToDTO(savedPlan);
+
+        return WorkoutMapper.workoutEntityToDTO(workout);
     }
 
     @Override

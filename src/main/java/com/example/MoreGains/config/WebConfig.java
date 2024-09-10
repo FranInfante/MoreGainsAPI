@@ -17,10 +17,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebMvc
@@ -28,7 +33,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -53,8 +57,9 @@ public class WebConfig implements WebMvcConfigurer {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:4200")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-                        .allowedHeaders("*");
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
@@ -64,23 +69,33 @@ public class WebConfig implements WebMvcConfigurer {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        // Allow access to static resources
                         .requestMatchers("/uploads/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, UriConstants.USERS).permitAll()
-                        .requestMatchers(UriConstants.USERS + UriConstants.USERS_LOGIN).permitAll()
-                        .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll()
-                        .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll()
-                        .requestMatchers(HttpMethod.GET, UriConstants.PLANS + "/**").permitAll()
-                        .requestMatchers(UriConstants.PLANS + UriConstants.PLANS_BY_USER_ID).permitAll()
-                        .requestMatchers(UriConstants.PLANS + UriConstants.BY_ID).permitAll()
-                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS).permitAll()
-                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUTS_IN_PLAN).permitAll()
-                        .requestMatchers(HttpMethod.GET, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll()
-                        .requestMatchers(UriConstants.PLANS).permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").permitAll()
+
+                        // Allow access to user-related endpoints
+                        .requestMatchers(HttpMethod.POST, UriConstants.USERS).permitAll() // User registration
+                        .requestMatchers(UriConstants.USERS + UriConstants.USERS_LOGIN).permitAll() // User login
+                        .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll() // User authentication
+                        .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll() // Access user by ID
+
+                        // Allow access to plans-related endpoints
+                        .requestMatchers(HttpMethod.GET, UriConstants.PLANS + "/**").permitAll() // Get all plans and plan by ID
+                        .requestMatchers(UriConstants.PLANS + UriConstants.PLANS_BY_USER_ID).permitAll() // Get plans by user ID
+                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS).permitAll() // Create a new plan
+                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUTS_IN_PLAN).permitAll() // Add workout to plan
+                        .requestMatchers(HttpMethod.GET, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll() // Get workout exercise in plan
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN).permitAll() // Delete workout exercise in plan
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.BY_ID).permitAll() // Delete plan by ID
+                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN_CREATE).permitAll() // Add exercise to workout in plan
+                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_CREATE).permitAll()
+                        .requestMatchers(UriConstants.PLANS).permitAll() // Access all plans endpoint
+
+                        // Allow access to exercise-related endpoints
+                        .requestMatchers(HttpMethod.GET, UriConstants.EXERCISES).permitAll() // Get all exercises
+
+                        // Allow access to all OPTIONS requests (CORS pre-flight)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN_CREATE).permitAll()
-                        .requestMatchers(HttpMethod.GET, UriConstants.EXERCISES).permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
