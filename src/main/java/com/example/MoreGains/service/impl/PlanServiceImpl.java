@@ -17,8 +17,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
 
@@ -189,6 +191,29 @@ public class PlanServiceImpl implements PlanService {
         workoutRepository.save(workout);
 
         return WorkoutMapper.workoutEntityToDTO(workout);
+    }
+
+    @Override
+    public void reorderWorkouts(Integer planId, List<Integer> workoutIds) throws Exception {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
+
+        List<Workout> workouts = plan.getWorkouts();
+        if (workouts == null) {
+            throw new Exception("No workouts found in the plan.");
+        }
+
+        // Map workout IDs to their new positions
+        Map<Integer, Integer> workoutOrderMap = IntStream.range(0, workoutIds.size())
+                .boxed()
+                .collect(Collectors.toMap(workoutIds::get, i -> i));
+
+        // Update the order for each workout
+        workouts.stream()
+                .filter(workout -> workoutOrderMap.containsKey(workout.getId()))
+                .forEach(workout -> workout.setSort(workoutOrderMap.get(workout.getId())));
+
+        planRepository.save(plan);
     }
 
 }

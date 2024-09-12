@@ -86,4 +86,10 @@ public class PlanController implements PlanApi {
         WorkoutExerciseDTO workoutExerciseDTO = planService.getWorkoutExercise(planId, workoutId, exerciseId);
         return ResponseEntity.ok(workoutExerciseDTO);
     }
+
+    @Override
+    public ResponseEntity<Void> reorderWorkouts(Integer planId, List<Integer> workoutIds) throws Exception {
+            planService.reorderWorkouts(planId, workoutIds);
+            return ResponseEntity.ok().build();
+    }
 }

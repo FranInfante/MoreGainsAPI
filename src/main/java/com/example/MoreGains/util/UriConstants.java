@@ -23,6 +23,7 @@ public class UriConstants {
     public static final String WORKOUT_EXERCISES = BASE_URL + "/workoutexercises";
     public static final String WORKOUT_EXERCISES_FOR_WORKOUT = BASE_URL + "/workout/{workoutId}/exercises";
     public static final String EXERCISES = BASE_URL + "/exercises";
+    public static final String REORDER = "/{planId}/workouts/reorder";
 
     // Muscle groups endpoint
     public static final String MUSCLE_GROUPS = BASE_URL + "/musclegroups";

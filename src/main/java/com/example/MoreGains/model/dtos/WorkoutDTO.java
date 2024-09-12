@@ -17,4 +17,5 @@ public class WorkoutDTO {
     private String description;
     private Boolean isAvailable;
     private List<WorkoutExerciseDTO> workoutExercises;
+    private Integer sort;
 }
