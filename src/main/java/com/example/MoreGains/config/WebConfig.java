@@ -17,9 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -89,6 +86,8 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN_CREATE).permitAll() // Add exercise to workout in plan
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_CREATE).permitAll()
                         .requestMatchers(UriConstants.PLANS).permitAll() // Access all plans endpoint
+
+                        .requestMatchers(HttpMethod.PUT, UriConstants.PLANS + UriConstants.REORDER).permitAll()
 
                         // Allow access to exercise-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.EXERCISES).permitAll() // Get all exercises

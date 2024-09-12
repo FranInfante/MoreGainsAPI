@@ -41,4 +41,8 @@ public interface PlanApi {
 
     @GetMapping(UriConstants.WORKOUT_EXERCISE_IN_PLAN)
     ResponseEntity<WorkoutExerciseDTO> getWorkoutExercise(@PathVariable Integer planId, @PathVariable Integer workoutId, @PathVariable Integer exerciseId) throws Exception;
+
+    @PutMapping(UriConstants.REORDER)
+    public ResponseEntity<Void> reorderWorkouts(@PathVariable Integer planId,
+                                                @RequestBody List<Integer> workoutIds) throws Exception;
 }

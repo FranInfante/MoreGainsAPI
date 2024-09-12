@@ -18,4 +18,5 @@ public interface PlanService {
     void deleteWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception;
     WorkoutExerciseDTO getWorkoutExercise(Integer planId, Integer workoutId, Integer exerciseId) throws Exception;
     WorkoutDTO addExerciseToWorkout(Integer planId, Integer workoutId, WorkoutExerciseDTO exerciseDTO) throws Exception;
+    void reorderWorkouts(Integer planId, List<Integer> workoutIds)throws Exception;
 }

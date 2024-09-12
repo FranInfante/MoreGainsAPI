@@ -28,5 +28,6 @@ public class Plan {
     private Users user;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("sort ASC")
     private List<Workout> workouts;
 }
