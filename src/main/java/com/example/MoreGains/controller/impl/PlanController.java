@@ -2,6 +2,7 @@ package com.example.MoreGains.controller.impl;
 
 import com.example.MoreGains.controller.PlanApi;
 import com.example.MoreGains.model.dtos.PlanDTO;
+import com.example.MoreGains.model.dtos.UpdatePlanNameDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.service.PlanService;
@@ -9,6 +10,7 @@ import com.example.MoreGains.util.UriConstants;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,5 +93,15 @@ public class PlanController implements PlanApi {
     public ResponseEntity<Void> reorderWorkouts(Integer planId, List<Integer> workoutIds) throws Exception {
             planService.reorderWorkouts(planId, workoutIds);
             return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<PlanDTO> updatePlanName(@PathVariable Integer id, @RequestBody UpdatePlanNameDTO updatePlanNameDTO) {
+        try {
+            PlanDTO updatedPlan = planService.updatePlanName(id, updatePlanNameDTO.getName());
+            return ResponseEntity.ok(updatedPlan);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

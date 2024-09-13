@@ -39,6 +39,7 @@ public class UriConstants {
     // Plans endpoints
     public static final String PLANS = BASE_URL + "/plans";
     public static final String PLANS_BY_USER_ID = "/user/{userId}";
+    public static final String UPDATE_NAME = "/{id}/name";
     public static final String WORKOUTS_IN_PLAN = "/{planId}/workouts";
     public static final String WORKOUT_EXERCISE_IN_PLAN = "/{planId}/workout/{workoutId}/exercise/{exerciseId}";
     public static final String WORKOUT_EXERCISE_IN_PLAN_CREATE = "/{planId}/workouts/{workoutId}/exercise";
