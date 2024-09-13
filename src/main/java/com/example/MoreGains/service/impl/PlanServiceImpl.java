@@ -216,4 +216,18 @@ public class PlanServiceImpl implements PlanService {
         planRepository.save(plan);
     }
 
+    @Override
+    public PlanDTO updatePlanName(Integer id, String name) throws Exception {
+        Plan plan = planRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
+
+        if (name != null) {
+            plan.setName(name);
+            System.out.println(name);
+        }
+
+        Plan savedPlan = planRepository.save(plan);
+        return PlanMapper.planEntityToDTO(savedPlan);
+    }
+
 }

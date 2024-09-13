@@ -54,7 +54,7 @@ public class WebConfig implements WebMvcConfigurer {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:4200")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
@@ -85,7 +85,8 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.BY_ID).permitAll() // Delete plan by ID
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_EXERCISE_IN_PLAN_CREATE).permitAll() // Add exercise to workout in plan
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_CREATE).permitAll()
-                        .requestMatchers(UriConstants.PLANS).permitAll() // Access all plans endpoint
+                        .requestMatchers(HttpMethod.PATCH, UriConstants.PLANS + UriConstants.UPDATE_NAME).permitAll()
+                        .requestMatchers(UriConstants.PLANS).permitAll()
 
                         .requestMatchers(HttpMethod.PUT, UriConstants.PLANS + UriConstants.REORDER).permitAll()
 

@@ -1,6 +1,7 @@
 package com.example.MoreGains.controller;
 
 import com.example.MoreGains.model.dtos.PlanDTO;
+import com.example.MoreGains.model.dtos.UpdatePlanNameDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.util.UriConstants;
@@ -45,4 +46,7 @@ public interface PlanApi {
     @PutMapping(UriConstants.REORDER)
     public ResponseEntity<Void> reorderWorkouts(@PathVariable Integer planId,
                                                 @RequestBody List<Integer> workoutIds) throws Exception;
+
+    @PatchMapping(UriConstants.UPDATE_NAME)
+    public ResponseEntity<PlanDTO> updatePlanName(@PathVariable Integer id, @RequestBody UpdatePlanNameDTO updatePlanNameDTO) throws Exception;
 }
