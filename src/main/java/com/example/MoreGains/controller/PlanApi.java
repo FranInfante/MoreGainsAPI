@@ -44,9 +44,14 @@ public interface PlanApi {
     ResponseEntity<WorkoutExerciseDTO> getWorkoutExercise(@PathVariable Integer planId, @PathVariable Integer workoutId, @PathVariable Integer exerciseId) throws Exception;
 
     @PutMapping(UriConstants.REORDER)
-    public ResponseEntity<Void> reorderWorkouts(@PathVariable Integer planId,
-                                                @RequestBody List<Integer> workoutIds) throws Exception;
+    ResponseEntity<Void> reorderWorkouts(@PathVariable Integer planId,
+                                         @RequestBody List<Integer> workoutIds) throws Exception;
 
     @PatchMapping(UriConstants.UPDATE_NAME)
-    public ResponseEntity<PlanDTO> updatePlanName(@PathVariable Integer id, @RequestBody UpdatePlanNameDTO updatePlanNameDTO) throws Exception;
+    ResponseEntity<PlanDTO> updatePlanName(@PathVariable Integer id, @RequestBody UpdatePlanNameDTO updatePlanNameDTO) throws Exception;
+
+    @DeleteMapping(UriConstants.WORKOUT_IN_PLAN_DELETE)
+    ResponseEntity<Void> deleteWorkoutinPlan(
+            @PathVariable Integer planId,
+            @PathVariable Integer workoutId);
 }
