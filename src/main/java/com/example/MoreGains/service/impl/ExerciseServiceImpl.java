@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +43,25 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = exerciseRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageConstants.EXERCISE_NOT_FOUND));
         exercise.setIsAvailable(false);
         exerciseRepository.save(exercise);
+    }
+
+    @Override
+    public ExerciseDTO checkAndCreateExercise(ExerciseDTO exerciseDTO) {
+        Optional<Exercise> existingExercise = exerciseRepository
+                .findByNameIgnoreCase(exerciseDTO.getName());
+
+        if (existingExercise.isPresent()) {
+            throw new IllegalArgumentException(MessageConstants.EXERCISE_ALREADY_EXISTS);
+        }
+        Exercise exercise = ExerciseMapper.exerciseDTOToEntity(exerciseDTO);
+        if (exerciseDTO.getDescription() == null) {
+            exercise.setDescription(null);
+        }
+        if (exerciseDTO.getVideoUrl() == null) {
+            exercise.setVideoUrl(null);
+        }
+
+        Exercise savedExercise = exerciseRepository.save(exercise);
+        return ExerciseMapper.exerciseEntityToDTO(savedExercise);
     }
 }

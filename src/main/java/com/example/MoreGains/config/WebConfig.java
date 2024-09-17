@@ -93,6 +93,9 @@ public class WebConfig implements WebMvcConfigurer {
 
                         // Allow access to exercise-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.EXERCISES).permitAll() // Get all exercises
+                        .requestMatchers(HttpMethod.POST, UriConstants.EXERCISES + UriConstants.EXERCISES_CREATE).permitAll()
+                        .requestMatchers(HttpMethod.GET, UriConstants.MUSCLE_GROUPS).permitAll()
+
 
                         // Allow access to all OPTIONS requests (CORS pre-flight)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

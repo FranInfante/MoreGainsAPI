@@ -14,6 +14,7 @@ public class MuscleGroupMapper {
         return MuscleGroup.builder()
                 .id(muscleGroupDTO.getId())
                 .name(muscleGroupDTO.getName())
+                .isAvailable(muscleGroupDTO.getIsAvailable())
                 .build();
     }
 
@@ -21,6 +22,7 @@ public class MuscleGroupMapper {
         return MuscleGroupDTO.builder()
                 .id(muscleGroup.getId())
                 .name(muscleGroup.getName())
+                .isAvailable(muscleGroup.getIsAvailable())
                 .build();
     }
     public List<MuscleGroup> listMuscleGroupDTOToEntity(List<MuscleGroupDTO> listMuscleGroupDTO) {

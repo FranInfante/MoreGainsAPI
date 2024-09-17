@@ -25,4 +25,7 @@ public class Exercise {
     private MuscleGroup muscleGroup;
 
     private Boolean isAvailable = true;
+
+    @Column(nullable = true)
+    private Integer userId;
 }
