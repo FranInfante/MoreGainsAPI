@@ -46,8 +46,8 @@ public class ExerciseController implements ExerciseApi {
     }
 
     @Override
-    public ResponseEntity<ExerciseDTO> checkAndCreateExercise(ExerciseDTO exerciseDTO) {
-        ExerciseDTO createdExercise = exerciseService.checkAndCreateExercise(exerciseDTO);
+    public ResponseEntity<ExerciseDTO> checkAndCreateExercise(ExerciseDTO exerciseDTO,  Integer planId, Integer workoutId) {
+        ExerciseDTO createdExercise = exerciseService.checkAndCreateExercise(exerciseDTO, planId, workoutId);
         return ResponseEntity.ok(createdExercise);
     }
 }

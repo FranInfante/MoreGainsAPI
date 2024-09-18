@@ -26,5 +26,7 @@ public interface ExerciseApi {
     ResponseEntity<Void> updateExercise(@PathVariable Integer id, @RequestBody ExerciseDTO updateExercise) throws Exception;
 
     @PostMapping(UriConstants.EXERCISES_CREATE)
-    public ResponseEntity<ExerciseDTO> checkAndCreateExercise(@RequestBody ExerciseDTO exerciseDTO);
+    ResponseEntity<ExerciseDTO> checkAndCreateExercise(@RequestBody ExerciseDTO exerciseDTO,
+                                                              @RequestParam Integer planId,
+                                                              @RequestParam Integer workoutId);
 }

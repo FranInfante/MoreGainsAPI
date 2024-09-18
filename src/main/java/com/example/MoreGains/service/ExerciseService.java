@@ -9,5 +9,5 @@ public interface ExerciseService {
     ExerciseDTO getExerciseById(Integer id);
     ExerciseDTO saveExercise(ExerciseDTO exerciseDTO);
     void deleteExercise(Integer id);
-    ExerciseDTO checkAndCreateExercise(ExerciseDTO exerciseDTO);
+    ExerciseDTO checkAndCreateExercise(ExerciseDTO exerciseDTO, Integer planId, Integer workoutId);
 }
