@@ -11,7 +11,7 @@ import java.util.List;
 public interface ExerciseApi {
 
     @GetMapping
-    ResponseEntity<List<ExerciseDTO>> getAllExercises();
+    ResponseEntity<List<ExerciseDTO>> getAllExercises(@RequestParam Integer userId);
 
     @GetMapping(UriConstants.BY_ID)
     ResponseEntity<ExerciseDTO> getExerciseById(@PathVariable Integer id);

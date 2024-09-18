@@ -16,8 +16,8 @@ public class ExerciseController implements ExerciseApi {
     private final ExerciseService exerciseService;
 
     @Override
-    public ResponseEntity<List<ExerciseDTO>> getAllExercises() {
-        List<ExerciseDTO> exercises = exerciseService.getAllExercises();
+    public ResponseEntity<List<ExerciseDTO>> getAllExercises(Integer userId) {
+        List<ExerciseDTO> exercises = exerciseService.getAllExercises(userId);
         return ResponseEntity.ok(exercises);
     }
 

@@ -20,8 +20,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
 
     @Override
-    public List<ExerciseDTO> getAllExercises() {
-        List<Exercise> exercises = exerciseRepository.findAll();
+    public List<ExerciseDTO> getAllExercises(Integer userId) {
+        List<Exercise> exercises = exerciseRepository.findByUserIdIsNullOrUserId(userId);
         return ExerciseMapper.listExerciseEntityToDTO(exercises);
     }
 
