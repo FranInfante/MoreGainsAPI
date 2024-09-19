@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
+
 @Service
 @RequiredArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
@@ -53,12 +55,17 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public ExerciseDTO checkAndCreateExercise(ExerciseDTO exerciseDTO, Integer planId, Integer workoutId) {
+        exerciseDTO.setName(capitalizeFirstLetter(exerciseDTO.getName()));
 
         Optional<Exercise> existingExercise = exerciseRepository.findByNameIgnoreCase(exerciseDTO.getName());
 
         Exercise exercise;
         if (existingExercise.isPresent()) {
             exercise = existingExercise.get();
+            // Return the DTO with the exists flag set to true
+            ExerciseDTO exerciseDTOResponse = ExerciseMapper.exerciseEntityToDTO(exercise);
+            exerciseDTOResponse.setExists(true);
+            return exerciseDTOResponse;
         } else {
             exercise = ExerciseMapper.exerciseDTOToEntity(exerciseDTO);
             if (exerciseDTO.getDescription() == null) {
@@ -70,7 +77,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
             // Save the new exercise to the repository
             exercise = exerciseRepository.save(exercise);
+            // Return the DTO with the exists flag set to false (newly created exercise)
+            ExerciseDTO exerciseDTOResponse = ExerciseMapper.exerciseEntityToDTO(exercise);
+            exerciseDTOResponse.setExists(false);
+            return exerciseDTOResponse;
         }
-        return ExerciseMapper.exerciseEntityToDTO(exercise);
     }
 }
