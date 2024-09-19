@@ -53,15 +53,13 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public ExerciseDTO checkAndCreateExercise(ExerciseDTO exerciseDTO, Integer planId, Integer workoutId) {
-        // First, check if the exercise already exists in the database
+
         Optional<Exercise> existingExercise = exerciseRepository.findByNameIgnoreCase(exerciseDTO.getName());
 
         Exercise exercise;
         if (existingExercise.isPresent()) {
-            // Use the existing exercise if found
             exercise = existingExercise.get();
         } else {
-            // Create a new exercise if it doesn't exist
             exercise = ExerciseMapper.exerciseDTOToEntity(exerciseDTO);
             if (exerciseDTO.getDescription() == null) {
                 exercise.setDescription(null);
@@ -73,10 +71,6 @@ public class ExerciseServiceImpl implements ExerciseService {
             // Save the new exercise to the repository
             exercise = exerciseRepository.save(exercise);
         }
-
-        // Remove the association logic with a workout
-        // The method now only creates or returns the exercise
-
         return ExerciseMapper.exerciseEntityToDTO(exercise);
     }
 }
