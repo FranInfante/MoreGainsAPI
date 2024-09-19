@@ -1,10 +1,15 @@
 package com.example.MoreGains.model.enums;
 
 public enum MuscleGroupType {
-    CHEST,
-    BACK,
     LEGS,
+    BACK,
+    CHEST,
     ARMS,
     SHOULDERS,
-    CORE
+    HAMSTRINGS,
+    QUADS,
+    GLUTES,
+    BICEPS,
+    FOREARMS,
+    OTHER
 }
