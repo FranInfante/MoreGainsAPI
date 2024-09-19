@@ -20,4 +20,5 @@ public class MessageConstants {
 
 
 
+    public static final String EXERCISE_ALREADY_EXISTS = "Exercise already exists";
 }

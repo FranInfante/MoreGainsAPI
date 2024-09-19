@@ -81,6 +81,14 @@ public class PlanController implements PlanApi {
     }
 
     @Override
+    public ResponseEntity<Void> deleteWorkoutinPlan(
+            @PathVariable Integer planId,
+            @PathVariable Integer workoutId){
+        planService.deleteWorkout(planId, workoutId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
     public ResponseEntity<WorkoutExerciseDTO> getWorkoutExercise(
             @PathVariable Integer planId,
             @PathVariable Integer workoutId,

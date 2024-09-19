@@ -87,11 +87,18 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_CREATE).permitAll()
                         .requestMatchers(HttpMethod.PATCH, UriConstants.PLANS + UriConstants.UPDATE_NAME).permitAll()
                         .requestMatchers(UriConstants.PLANS).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_DELETE).permitAll()
 
                         .requestMatchers(HttpMethod.PUT, UriConstants.PLANS + UriConstants.REORDER).permitAll()
 
                         // Allow access to exercise-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.EXERCISES).permitAll() // Get all exercises
+                        .requestMatchers(HttpMethod.POST, UriConstants.EXERCISES + UriConstants.EXERCISES_CREATE).permitAll()
+                        .requestMatchers(HttpMethod.GET, UriConstants.MUSCLE_GROUPS).permitAll()
+
+                        .requestMatchers(HttpMethod.POST, UriConstants.EXERCISES + UriConstants.EXERCISES_CREATE).permitAll()
+
+
 
                         // Allow access to all OPTIONS requests (CORS pre-flight)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

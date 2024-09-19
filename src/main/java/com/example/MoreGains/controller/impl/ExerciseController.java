@@ -16,8 +16,8 @@ public class ExerciseController implements ExerciseApi {
     private final ExerciseService exerciseService;
 
     @Override
-    public ResponseEntity<List<ExerciseDTO>> getAllExercises() {
-        List<ExerciseDTO> exercises = exerciseService.getAllExercises();
+    public ResponseEntity<List<ExerciseDTO>> getAllExercises(Integer userId) {
+        List<ExerciseDTO> exercises = exerciseService.getAllExercises(userId);
         return ResponseEntity.ok(exercises);
     }
 
@@ -43,5 +43,11 @@ public class ExerciseController implements ExerciseApi {
     public ResponseEntity<Void> updateExercise(Integer id, ExerciseDTO updateExercise) throws Exception {
         exerciseService.saveExercise(updateExercise);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<ExerciseDTO> checkAndCreateExercise(ExerciseDTO exerciseDTO,  Integer planId, Integer workoutId) {
+        ExerciseDTO createdExercise = exerciseService.checkAndCreateExercise(exerciseDTO, planId, workoutId);
+        return ResponseEntity.ok(createdExercise);
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface ExerciseApi {
 
     @GetMapping
-    ResponseEntity<List<ExerciseDTO>> getAllExercises();
+    ResponseEntity<List<ExerciseDTO>> getAllExercises(@RequestParam Integer userId);
 
     @GetMapping(UriConstants.BY_ID)
     ResponseEntity<ExerciseDTO> getExerciseById(@PathVariable Integer id);
@@ -24,4 +24,9 @@ public interface ExerciseApi {
 
     @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateExercise(@PathVariable Integer id, @RequestBody ExerciseDTO updateExercise) throws Exception;
+
+    @PostMapping(UriConstants.EXERCISES_CREATE)
+    ResponseEntity<ExerciseDTO> checkAndCreateExercise(@RequestBody ExerciseDTO exerciseDTO,
+                                                              @RequestParam Integer planId,
+                                                              @RequestParam Integer workoutId);
 }

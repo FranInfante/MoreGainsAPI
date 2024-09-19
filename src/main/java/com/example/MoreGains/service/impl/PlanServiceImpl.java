@@ -230,4 +230,16 @@ public class PlanServiceImpl implements PlanService {
         return PlanMapper.planEntityToDTO(savedPlan);
     }
 
+    @Override
+    public void deleteWorkout(Integer planId, Integer workoutId) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.PLAN_NOT_FOUND));
+        Workout workout = workoutRepository.findById(workoutId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
+        plan.getWorkouts().remove(workout);
+        workoutRepository.delete(workout);
+        planRepository.save(plan);
+    }
+
+
 }

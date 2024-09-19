@@ -14,9 +14,9 @@ public class WorkoutExerciseMapper {
 
         return WorkoutExerciseDTO.builder()
                 .id(workoutExercise.getId())
-                .reps(workoutExercise.getReps())
-                .sets(workoutExercise.getSets())
-                .weight(workoutExercise.getWeight())
+                .reps(workoutExercise.getReps() != null ? workoutExercise.getReps() : 0)
+                .sets(workoutExercise.getSets() != null ? workoutExercise.getSets() : 0)
+                .weight(workoutExercise.getWeight() != null ? workoutExercise.getWeight() : 0)
                 .exerciseName(workoutExercise.getExercise().getName())
                 .build();
     }
@@ -28,9 +28,9 @@ public class WorkoutExerciseMapper {
 
         WorkoutExercise workoutExercise = new WorkoutExercise();
         workoutExercise.setId(workoutExerciseDTO.getId());
-        workoutExercise.setReps(workoutExerciseDTO.getReps());
-        workoutExercise.setSets(workoutExerciseDTO.getSets());
-        workoutExercise.setWeight(workoutExerciseDTO.getWeight());
+        workoutExercise.setReps(workoutExerciseDTO.getReps() != null ? workoutExerciseDTO.getReps() : 0);
+        workoutExercise.setSets(workoutExerciseDTO.getSets() != null ? workoutExerciseDTO.getSets() : 0);
+        workoutExercise.setWeight(workoutExerciseDTO.getWeight() != null ? workoutExerciseDTO.getWeight() : 0);
 
         return workoutExercise;
     }

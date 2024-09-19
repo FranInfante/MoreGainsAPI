@@ -17,6 +17,8 @@ public class ExerciseMapper {
                 .description(exerciseDTO.getDescription())
                 .videoUrl(exerciseDTO.getVideoUrl())
                 .muscleGroup(MuscleGroupMapper.muscleGroupDTOToEntity(exerciseDTO.getMuscleGroup()))
+                .isAvailable(exerciseDTO.getIsAvailable() != null ? exerciseDTO.getIsAvailable() : true)
+                .userId(exerciseDTO.getUserId())
                 .build();
     }
 
@@ -27,6 +29,8 @@ public class ExerciseMapper {
                 .description(exercise.getDescription())
                 .videoUrl(exercise.getVideoUrl())
                 .muscleGroup(MuscleGroupMapper.muscleGroupEntityToDTO(exercise.getMuscleGroup()))
+                .isAvailable(exercise.getIsAvailable())
+                .userId(exercise.getUserId())
                 .build();
     }
 

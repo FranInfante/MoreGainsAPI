@@ -14,4 +14,5 @@ public class ExerciseDTO {
     private String videoUrl;
     private Boolean isAvailable;
     private MuscleGroupDTO muscleGroup;
+    private Integer userId;
 }
