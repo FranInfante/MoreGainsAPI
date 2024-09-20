@@ -15,4 +15,5 @@ public class ExerciseDTO {
     private Boolean isAvailable;
     private MuscleGroupDTO muscleGroup;
     private Integer userId;
+    private boolean exists;
 }

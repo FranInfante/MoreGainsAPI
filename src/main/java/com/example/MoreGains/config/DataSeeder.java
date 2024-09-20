@@ -123,11 +123,17 @@ public class DataSeeder implements CommandLineRunner {
     @Transactional
     private void seedMuscleGroups() {
         MuscleGroup[] muscleGroups = {
-                MuscleGroup.builder().name(MuscleGroupType.LEGS).isAvailable(true).build(),
-                MuscleGroup.builder().name(MuscleGroupType.BACK).isAvailable(true).build(),
-                MuscleGroup.builder().name(MuscleGroupType.CHEST).isAvailable(true).build(),
-                MuscleGroup.builder().name(MuscleGroupType.ARMS).isAvailable(true).build(),
-                MuscleGroup.builder().name(MuscleGroupType.SHOULDERS).isAvailable(true).build()
+                MuscleGroup.builder().name(MuscleGroupType.LEGS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.BACK).build(),
+                MuscleGroup.builder().name(MuscleGroupType.CHEST).build(),
+                MuscleGroup.builder().name(MuscleGroupType.ARMS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.SHOULDERS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.HAMSTRINGS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.QUADS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.GLUTES).build(),
+                MuscleGroup.builder().name(MuscleGroupType.BICEPS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.FOREARMS).build(),
+                MuscleGroup.builder().name(MuscleGroupType.OTHER).build()
         };
 
         muscleGroupRepository.saveAll(Arrays.asList(muscleGroups));
