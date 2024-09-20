@@ -57,17 +57,43 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ExerciseDTO checkAndCreateExercise(ExerciseDTO exerciseDTO, Integer planId, Integer workoutId) {
         exerciseDTO.setName(capitalizeFirstLetter(exerciseDTO.getName()));
 
-        Optional<Exercise> existingExercise = exerciseRepository.findByNameIgnoreCase(exerciseDTO.getName());
+        Optional<Exercise> existingExercise = exerciseRepository.findByNameIgnoreCaseAndUserId(
+                exerciseDTO.getName(), exerciseDTO.getUserId());
 
         Exercise exercise;
         if (existingExercise.isPresent()) {
-            exercise = existingExercise.get();
-            // Return the DTO with the exists flag set to true
-            ExerciseDTO exerciseDTOResponse = ExerciseMapper.exerciseEntityToDTO(exercise);
-            exerciseDTOResponse.setExists(true);
-            return exerciseDTOResponse;
+            Exercise foundExercise = existingExercise.get();
+
+            // Check if the userId in the found exercise is different from the userId in the DTO
+            if (foundExercise.getUserId() == null || !foundExercise.getUserId().equals(exerciseDTO.getUserId())) {
+                // Create a new exercise with the userId from the DTO
+                exercise = ExerciseMapper.exerciseDTOToEntity(exerciseDTO);
+                exercise.setUserId(exerciseDTO.getUserId());
+
+                if (exerciseDTO.getDescription() == null) {
+                    exercise.setDescription(null);
+                }
+                if (exerciseDTO.getVideoUrl() == null) {
+                    exercise.setVideoUrl(null);
+                }
+
+                exercise = exerciseRepository.save(exercise);
+                ExerciseDTO newExerciseDTO = ExerciseMapper.exerciseEntityToDTO(exercise);
+                newExerciseDTO.setExists(false); // Indicating it's a new exercise
+
+                return newExerciseDTO;
+            } else {
+                // Return the existing exercise if the userId matches
+                ExerciseDTO exerciseDTOResponse = ExerciseMapper.exerciseEntityToDTO(foundExercise);
+                exerciseDTOResponse.setExists(true); // Indicating it's an existing exercise
+
+                return exerciseDTOResponse;
+            }
         } else {
+            // No exercise found, create a new one
             exercise = ExerciseMapper.exerciseDTOToEntity(exerciseDTO);
+            exercise.setUserId(exerciseDTO.getUserId());
+
             if (exerciseDTO.getDescription() == null) {
                 exercise.setDescription(null);
             }
@@ -77,10 +103,11 @@ public class ExerciseServiceImpl implements ExerciseService {
 
             // Save the new exercise to the repository
             exercise = exerciseRepository.save(exercise);
-            // Return the DTO with the exists flag set to false (newly created exercise)
-            ExerciseDTO exerciseDTOResponse = ExerciseMapper.exerciseEntityToDTO(exercise);
-            exerciseDTOResponse.setExists(false);
-            return exerciseDTOResponse;
+            ExerciseDTO newExerciseDTO = ExerciseMapper.exerciseEntityToDTO(exercise);
+            newExerciseDTO.setExists(false); // Indicating it's a newly created exercise
+
+            return newExerciseDTO;
         }
     }
+
 }
