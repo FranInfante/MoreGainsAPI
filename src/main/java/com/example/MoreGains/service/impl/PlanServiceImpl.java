@@ -223,7 +223,6 @@ public class PlanServiceImpl implements PlanService {
 
         if (name != null) {
             plan.setName(name);
-            System.out.println(name);
         }
 
         Plan savedPlan = planRepository.save(plan);

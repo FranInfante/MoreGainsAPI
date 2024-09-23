@@ -1,9 +1,11 @@
 package com.example.MoreGains.controller.impl;
 
 import com.example.MoreGains.controller.WorkoutApi;
+import com.example.MoreGains.model.dtos.UpdateWorkoutNameDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,5 +45,15 @@ public class WorkoutController implements WorkoutApi {
     public ResponseEntity<Void> updateWorkout(Integer id, WorkoutDTO updateWorkout) throws Exception {
         workoutService.saveWorkout(updateWorkout);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<WorkoutDTO> updateWorkoutName(Integer id, UpdateWorkoutNameDTO updateWorkoutNameDTO) {
+        try {
+            WorkoutDTO updatedWorkout = workoutService.updateWorkoutName(id, updateWorkoutNameDTO.getName());
+            return ResponseEntity.ok(updatedWorkout);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
