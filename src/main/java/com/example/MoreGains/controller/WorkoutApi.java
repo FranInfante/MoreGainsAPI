@@ -27,7 +27,7 @@ public interface WorkoutApi {
     @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateWorkout(@PathVariable Integer id, @RequestBody WorkoutDTO updateWorkout) throws Exception;
 
-    @PutMapping(UriConstants.UPDATE_NAME)
+    @PatchMapping(UriConstants.UPDATE_NAME)
     ResponseEntity<WorkoutDTO> updateWorkoutName(@PathVariable Integer id, @RequestBody UpdateWorkoutNameDTO updateWorkoutNameDTO);
 
 }
