@@ -9,4 +9,5 @@ public interface WorkoutService {
     WorkoutDTO getWorkoutById(Integer id);
     WorkoutDTO saveWorkout(WorkoutDTO workoutDTO);
     void deleteWorkout(Integer id);
+    WorkoutDTO updateWorkoutName(Integer id, String name) throws Exception;
 }

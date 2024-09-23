@@ -45,4 +45,16 @@ public class WorkoutServiceImpl implements WorkoutService {
         workout.setIsAvailable(false);
         workoutRepository.save(workout);
     }
+    @Override
+    public WorkoutDTO updateWorkoutName(Integer id, String name) throws Exception {
+        Workout workout = workoutRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND));
+
+        if (name != null) {
+            workout.setName(name);
+        }
+
+        Workout savedWorkout = workoutRepository.save(workout);
+        return WorkoutMapper.workoutEntityToDTO(savedWorkout);
+    }
 }

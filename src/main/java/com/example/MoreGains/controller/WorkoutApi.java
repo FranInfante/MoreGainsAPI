@@ -1,5 +1,6 @@
 package com.example.MoreGains.controller;
 
+import com.example.MoreGains.model.dtos.UpdateWorkoutNameDTO;
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.util.UriConstants;
 import org.springframework.http.ResponseEntity;
@@ -25,4 +26,8 @@ public interface WorkoutApi {
 
     @PutMapping(UriConstants.BY_ID)
     ResponseEntity<Void> updateWorkout(@PathVariable Integer id, @RequestBody WorkoutDTO updateWorkout) throws Exception;
+
+    @PutMapping(UriConstants.UPDATE_NAME)
+    ResponseEntity<WorkoutDTO> updateWorkoutName(@PathVariable Integer id, @RequestBody UpdateWorkoutNameDTO updateWorkoutNameDTO);
+
 }
