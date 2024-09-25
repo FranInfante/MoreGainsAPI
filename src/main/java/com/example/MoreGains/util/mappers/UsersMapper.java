@@ -1,4 +1,4 @@
-package com.example.MoreGains.util;
+package com.example.MoreGains.util.mappers;
 
 import com.example.MoreGains.model.dtos.UsersDTO;
 import com.example.MoreGains.model.entities.Users;

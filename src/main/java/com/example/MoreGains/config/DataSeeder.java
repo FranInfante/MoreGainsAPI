@@ -63,7 +63,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedUsers() {
+    public void seedUsers() {
         Users[] users = {
                 Users.builder()
                         .username("user1")
@@ -121,7 +121,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedMuscleGroups() {
+    public void seedMuscleGroups() {
         MuscleGroup[] muscleGroups = {
                 MuscleGroup.builder().name(MuscleGroupType.LEGS).build(),
                 MuscleGroup.builder().name(MuscleGroupType.BACK).build(),
@@ -189,7 +189,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedFavorites() {
+    public void seedFavorites() {
         user1.ifPresent(u -> {
             Optional<Exercise> squat = exerciseRepository.findByNameIgnoreCase("Squats");
             squat.ifPresent(exercise -> {
@@ -232,7 +232,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedWorkouts() {
+    public void seedWorkouts() {
         user1.ifPresent(u -> {
             Workout workout1 = Workout.builder()
                     .user(u)
@@ -267,7 +267,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedWorkoutExercises() {
+    public void seedWorkoutExercises() {
         Optional<Workout> legDay = workoutRepository.findByNameIgnoreCase("Leg Day");
         Optional<Exercise> squats = exerciseRepository.findByNameIgnoreCase("Squats");
 
@@ -306,7 +306,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedPlans() {
+    public void seedPlans() {
         user1.ifPresent(u -> {
             List<Workout> workouts = workoutRepository.findAllByUser(u);
 
@@ -344,7 +344,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedClientTrainers() {
+    public void seedClientTrainers() {
         trainer1.ifPresent(trainer -> {
             client1.ifPresent(client -> {
                 ClientTrainer clientTrainer1 = ClientTrainer.builder()

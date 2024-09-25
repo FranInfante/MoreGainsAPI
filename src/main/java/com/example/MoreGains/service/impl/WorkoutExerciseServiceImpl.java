@@ -4,7 +4,7 @@ import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.model.entities.WorkoutExercise;
 import com.example.MoreGains.repository.WorkoutExerciseRepository;
 import com.example.MoreGains.service.WorkoutExerciseService;
-import com.example.MoreGains.util.WorkoutExerciseMapper;
+import com.example.MoreGains.util.mappers.WorkoutExerciseMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

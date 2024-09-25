@@ -4,7 +4,7 @@ import com.example.MoreGains.model.dtos.MuscleGroupDTO;
 import com.example.MoreGains.model.entities.MuscleGroup;
 import com.example.MoreGains.repository.MuscleGroupRepository;
 import com.example.MoreGains.service.MuscleGroupService;
-import com.example.MoreGains.util.MuscleGroupMapper;
+import com.example.MoreGains.util.mappers.MuscleGroupMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

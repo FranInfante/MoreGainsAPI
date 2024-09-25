@@ -2,13 +2,11 @@ package com.example.MoreGains.service.impl;
 
 import com.example.MoreGains.model.dtos.ExerciseDTO;
 import com.example.MoreGains.model.entities.Exercise;
-import com.example.MoreGains.model.entities.Workout;
-import com.example.MoreGains.model.entities.WorkoutExercise;
 import com.example.MoreGains.repository.ExerciseRepository;
 import com.example.MoreGains.repository.WorkoutExerciseRepository;
 import com.example.MoreGains.repository.WorkoutRepository;
 import com.example.MoreGains.service.ExerciseService;
-import com.example.MoreGains.util.ExerciseMapper;
+import com.example.MoreGains.util.mappers.ExerciseMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

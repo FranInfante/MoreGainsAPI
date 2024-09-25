@@ -4,7 +4,7 @@ import com.example.MoreGains.model.dtos.ClientTrainerDTO;
 import com.example.MoreGains.model.entities.ClientTrainer;
 import com.example.MoreGains.repository.ClientTrainerRepository;
 import com.example.MoreGains.service.ClientTrainerService;
-import com.example.MoreGains.util.ClientTrainerMapper;
+import com.example.MoreGains.util.mappers.ClientTrainerMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

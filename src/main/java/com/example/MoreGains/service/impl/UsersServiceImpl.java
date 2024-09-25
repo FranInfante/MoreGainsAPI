@@ -6,7 +6,7 @@ import com.example.MoreGains.model.entities.Users;
 import com.example.MoreGains.repository.UsersRepository;
 import com.example.MoreGains.service.UsersService;
 import com.example.MoreGains.util.UserJwt;
-import com.example.MoreGains.util.UsersMapper;
+import com.example.MoreGains.util.mappers.UsersMapper;
 import com.example.MoreGains.util.exceptions.UserException;
 import com.example.MoreGains.util.jwt.JwtTokenUtil;
 import com.example.MoreGains.util.messages.MessageConstants;

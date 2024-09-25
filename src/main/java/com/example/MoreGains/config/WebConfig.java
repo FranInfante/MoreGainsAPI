@@ -98,6 +98,17 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.GET, UriConstants.MUSCLE_GROUPS).permitAll()
 
                         .requestMatchers(HttpMethod.POST, UriConstants.EXERCISES + UriConstants.EXERCISES_CREATE).permitAll()
+                        // WorkoutLog-related endpoints
+                        .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG + "/**").permitAll() // Get all workout logs
+                        .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG).permitAll() // Create a workout log
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG + UriConstants.BY_ID).permitAll() // Delete a workout log by ID
+
+                        // WorkoutLogExercise-related endpoints
+                        .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG_EXERCISES + "/**").permitAll() // Get all workout log exercises
+                        .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG_EXERCISES).permitAll() // Create a workout log exercise
+                        .requestMatchers(HttpMethod.PUT, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_ID).permitAll() // Update workout log exercise
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_ID).permitAll() // Delete a workout log exercise by ID
+
 
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 

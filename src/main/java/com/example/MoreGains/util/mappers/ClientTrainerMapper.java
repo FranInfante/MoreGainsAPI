@@ -1,4 +1,4 @@
-package com.example.MoreGains.util;
+package com.example.MoreGains.util.mappers;
 
 import com.example.MoreGains.model.dtos.ClientTrainerDTO;
 import com.example.MoreGains.model.entities.ClientTrainer;

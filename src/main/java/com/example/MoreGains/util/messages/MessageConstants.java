@@ -17,8 +17,6 @@ public class MessageConstants {
     public static final String WORKOUT_EXERCISE_NOT_FOUND = "Workout exercise not found";
     public static final String MODIFY_USER_ERROR = "Error updating user";
     public static final String NULL_WORKOUT_NAME = "Workout name cannot be null or empty";
-
-
-
-    public static final String EXERCISE_ALREADY_EXISTS = "Exercise already exists";
+    public static final String WORKOUT_LOG_EXERCISE_NOT_FOUND = "Workout log exercise not found";
+    public static final String WORKOUT_LOG_NOT_FOUND = "Workout log not found";
 }

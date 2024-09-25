@@ -1,10 +1,13 @@
-package com.example.MoreGains.util;
+package com.example.MoreGains.util.mappers;
 
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.model.entities.WorkoutExercise;
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class WorkoutExerciseMapper {
 
     public static WorkoutExerciseDTO workoutExerciseEntityToDTO(WorkoutExercise workoutExercise) {
