@@ -10,7 +10,4 @@ import lombok.*;
 public class WorkoutExerciseDTO {
     private Integer id;
     private String exerciseName;
-    private Integer reps;
-    private Integer sets;
-    private Double weight;
 }

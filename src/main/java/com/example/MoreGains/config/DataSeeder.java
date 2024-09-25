@@ -275,9 +275,6 @@ public class DataSeeder implements CommandLineRunner {
             WorkoutExercise legDaySquats = WorkoutExercise.builder()
                     .workout(legDay.get())
                     .exercise(squats.get())
-                    .sets(4)
-                    .reps(10)
-                    .weight(100.0)
                     .build();
 
             workoutExerciseRepository.save(legDaySquats);
@@ -290,9 +287,6 @@ public class DataSeeder implements CommandLineRunner {
             WorkoutExercise backAndBicepsDeadlifts = WorkoutExercise.builder()
                     .workout(backAndBiceps.get())
                     .exercise(deadlifts.get())
-                    .sets(3)
-                    .reps(12)
-                    .weight(120.0)
                     .build();
 
             workoutExerciseRepository.save(backAndBicepsDeadlifts);
@@ -305,9 +299,6 @@ public class DataSeeder implements CommandLineRunner {
             WorkoutExercise chestAndTricepsBenchPress = WorkoutExercise.builder()
                     .workout(chestAndTriceps.get())
                     .exercise(benchPress.get())
-                    .sets(4)
-                    .reps(8)
-                    .weight(80.0)
                     .build();
 
             workoutExerciseRepository.save(chestAndTricepsBenchPress);
