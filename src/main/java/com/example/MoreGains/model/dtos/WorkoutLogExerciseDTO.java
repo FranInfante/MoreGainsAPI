@@ -2,6 +2,8 @@ package com.example.MoreGains.model.dtos;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,10 +12,7 @@ import lombok.*;
 public class WorkoutLogExerciseDTO {
     private Integer id;
     private Integer exerciseId;
-    private Integer sets;
-    private Integer reps;
-    private Double weight;
-    private String notes;
+    private List<SetDTO> sets;
     private Integer workoutLogId;
 
 }

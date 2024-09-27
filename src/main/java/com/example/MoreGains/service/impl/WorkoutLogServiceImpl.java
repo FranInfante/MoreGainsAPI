@@ -1,10 +1,7 @@
 package com.example.MoreGains.service.impl;
 
 import com.example.MoreGains.model.dtos.WorkoutLogDTO;
-import com.example.MoreGains.model.entities.Users;
-import com.example.MoreGains.model.entities.Workout;
-import com.example.MoreGains.model.entities.WorkoutLog;
-import com.example.MoreGains.model.entities.WorkoutLogExercise;
+import com.example.MoreGains.model.entities.*;
 import com.example.MoreGains.repository.ExerciseRepository;
 import com.example.MoreGains.repository.UsersRepository;
 import com.example.MoreGains.repository.WorkoutLogRepository;
@@ -44,7 +41,7 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
         Workout workout = workoutRepository.findById(workoutLogDTO.getWorkoutId())
                 .orElseThrow(() -> new RuntimeException("Workout not found"));
 
-        // Map DTO to Entity
+        // Create the WorkoutLog entity
         WorkoutLog workoutLog = WorkoutLog.builder()
                 .user(user)
                 .workout(workout)
@@ -52,22 +49,28 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
                 .notes(workoutLogDTO.getNotes())
                 .build();
 
-        List<WorkoutLogExercise> exercises = workoutLogDTO.getExercises()
-                .stream()
-                .map(exerciseDTO -> WorkoutLogExercise.builder()
-                        .exercise(exerciseRepository.findById(exerciseDTO.getExerciseId())
-                                .orElseThrow(() -> new RuntimeException("Exercise not found")))
-                        .sets(exerciseDTO.getSets())
-                        .reps(exerciseDTO.getReps())
-                        .weight(exerciseDTO.getWeight())
-                        .notes(exerciseDTO.getNotes())
-                        .workoutLog(workoutLog) // Associate the exercise with the workout log
-                        .build())
+        // Now iterate through exercises and their respective sets
+        List<WorkoutLogExercise> exercises = workoutLogDTO.getExercises().stream()
+                .flatMap(exerciseDTO -> exerciseDTO.getSets().stream().map(setDTO -> {
+                    // Fetch the Exercise entity
+                    Exercise exercise = exerciseRepository.findById(exerciseDTO.getExerciseId())
+                            .orElseThrow(() -> new RuntimeException("Exercise not found"));
+
+                    // Create a WorkoutLogExercise for each set
+                    return WorkoutLogExercise.builder()
+                            .exercise(exercise)
+                            .workoutLog(workoutLog)
+                            .set(setDTO.getSet())  // Each set has set, reps, and weight
+                            .reps(setDTO.getReps())
+                            .weight(setDTO.getWeight())
+                            .build();
+                }))
                 .collect(Collectors.toList());
 
-        // Set exercises in workout log
+        // Set exercises to the workout log
         workoutLog.setExercises(exercises);
 
+        // Save the workout log and its exercises
         WorkoutLog savedWorkoutLog = workoutLogRepository.save(workoutLog);
 
         // Convert the saved entity back to DTO

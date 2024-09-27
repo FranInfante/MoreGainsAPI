@@ -24,7 +24,7 @@ public class WorkoutLogExercise {
     private Exercise exercise;
 
     @Column(nullable = false)
-    private Integer sets;
+    private Integer set;
 
     @Column(nullable = false)
     private Integer reps;
@@ -32,6 +32,4 @@ public class WorkoutLogExercise {
     @Column(nullable = true)
     private Double weight;
 
-    @Column(nullable = true)
-    private String notes;
 }

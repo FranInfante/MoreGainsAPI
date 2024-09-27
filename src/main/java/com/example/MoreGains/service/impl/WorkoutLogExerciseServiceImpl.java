@@ -28,6 +28,7 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
 
     @Override
     public List<WorkoutLogExerciseDTO> findByWorkoutLogId(Integer workoutLogId) {
+        // Correctly map `WorkoutLogExercise` to `WorkoutLogExerciseDTO`
         return workoutLogExerciseRepository.findByWorkoutLogId(workoutLogId)
                 .stream()
                 .map(WorkoutLogExerciseMapper::toDTO)
@@ -36,37 +37,48 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
 
     @Override
     public WorkoutLogExerciseDTO addWorkoutLogExercise(WorkoutLogExerciseDTO workoutLogExerciseDTO) {
+        // Find the exercise and workout log entities
         Exercise exercise = exerciseRepository.findById(workoutLogExerciseDTO.getExerciseId())
                 .orElseThrow(() -> new RuntimeException("Exercise not found"));
 
         WorkoutLog workoutLog = workoutLogRepository.findById(workoutLogExerciseDTO.getWorkoutLogId())
                 .orElseThrow(() -> new RuntimeException("Workout log not found"));
 
+        // Loop through the sets and create a WorkoutLogExercise for each set
+        List<WorkoutLogExercise> workoutLogExercises = workoutLogExerciseDTO.getSets().stream()
+                .map(setDTO -> WorkoutLogExercise.builder()
+                        .exercise(exercise)
+                        .workoutLog(workoutLog)
+                        .set(setDTO.getSet()) // Set number
+                        .reps(setDTO.getReps())
+                        .weight(setDTO.getWeight())
+                        .build()
+                ).collect(Collectors.toList());
 
-        WorkoutLogExercise workoutLogExercise = WorkoutLogExercise.builder()
-                .exercise(exercise)
-                .workoutLog(workoutLog)
-                .sets(workoutLogExerciseDTO.getSets())
-                .reps(workoutLogExerciseDTO.getReps())
-                .weight(workoutLogExerciseDTO.getWeight())
-                .notes(workoutLogExerciseDTO.getNotes())
-                .build();
+        // Save all the exercises (multiple sets)
+        List<WorkoutLogExercise> savedWorkoutLogExercises = workoutLogExerciseRepository.saveAll(workoutLogExercises);
 
-        WorkoutLogExercise savedWorkoutLogExercise = workoutLogExerciseRepository.save(workoutLogExercise);
-
-        return WorkoutLogExerciseMapper.toDTO(savedWorkoutLogExercise);
+        // Map saved entities to the DTOs
+        return savedWorkoutLogExercises.stream()
+                .map(WorkoutLogExerciseMapper::toDTO)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Failed to save WorkoutLogExercise"));
     }
 
     @Override
     public WorkoutLogExerciseDTO updateWorkoutLogExercise(Integer id, WorkoutLogExerciseDTO workoutLogExerciseDTO) {
+        // Retrieve and update existing WorkoutLogExercise
         WorkoutLogExercise workoutLogExercise = workoutLogExerciseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(MessageConstants.WORKOUT_LOG_EXERCISE_NOT_FOUND));
 
-        workoutLogExercise.setSets(workoutLogExerciseDTO.getSets());
-        workoutLogExercise.setReps(workoutLogExerciseDTO.getReps());
-        workoutLogExercise.setWeight(workoutLogExerciseDTO.getWeight());
-        workoutLogExercise.setNotes(workoutLogExerciseDTO.getNotes());
+        if (workoutLogExerciseDTO.getSets() != null && !workoutLogExerciseDTO.getSets().isEmpty()) {
+            // Update with the first set provided, assuming only one set update is allowed here
+            workoutLogExercise.setSet(workoutLogExerciseDTO.getSets().get(0).getSet());
+            workoutLogExercise.setReps(workoutLogExerciseDTO.getSets().get(0).getReps());
+            workoutLogExercise.setWeight(workoutLogExerciseDTO.getSets().get(0).getWeight());
+        }
 
+        // Save and map back to DTO
         WorkoutLogExercise updatedExercise = workoutLogExerciseRepository.save(workoutLogExercise);
         return WorkoutLogExerciseMapper.toDTO(updatedExercise);
     }
