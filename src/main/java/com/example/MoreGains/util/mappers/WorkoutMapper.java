@@ -25,6 +25,7 @@ public class WorkoutMapper {
                 .description(workout.getDescription())
                 .isAvailable(workout.getIsAvailable())
                 .workoutExercises(WorkoutExerciseMapper.listWorkoutExerciseEntityToDTO(workout.getWorkoutExercises()))
+                .sort(workout.getSort())
                 .build();
     }
 
@@ -52,6 +53,8 @@ public class WorkoutMapper {
         }
         if (workoutDTO.getWorkoutExercises() != null) {
             workout.setWorkoutExercises(WorkoutExerciseMapper.listWorkoutExerciseDTOToEntity(workoutDTO.getWorkoutExercises()));
+        }if (workoutDTO.getSort() != null) {
+            workout.setSort(workoutDTO.getSort());
         } else {
             workout.setWorkoutExercises(new ArrayList<>()); // Default to empty list if not provided
         }
