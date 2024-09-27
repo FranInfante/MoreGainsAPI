@@ -75,6 +75,9 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll() // User authentication
                         .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll() // Access user by ID
 
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.BY_ID).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_DELETE).permitAll()
+
                         // Allow access to plans-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.PLANS + "/**").permitAll() // Get all plans and plan by ID
                         .requestMatchers(UriConstants.PLANS + UriConstants.PLANS_BY_USER_ID).permitAll() // Get plans by user ID
