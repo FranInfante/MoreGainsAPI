@@ -76,7 +76,6 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll() // Access user by ID
 
                         .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.BY_ID).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_DELETE).permitAll()
 
                         // Allow access to plans-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.PLANS + "/**").permitAll() // Get all plans and plan by ID
@@ -106,6 +105,10 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG + "/**").permitAll() // Get all workout logs
                         .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG).permitAll() // Create a workout log
                         .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG + UriConstants.BY_ID).permitAll() // Delete a workout log by ID
+                        .requestMatchers(HttpMethod.PUT, UriConstants.WORKOUT_LOG + UriConstants.BY_ID).permitAll()
+
+
+                        .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG + UriConstants.FIND_BY_USER_AND_ISEDITING).permitAll() // Delete a workout log by ID
 
                         // WorkoutLogExercise-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG_EXERCISES + "/**").permitAll() // Get all workout log exercises

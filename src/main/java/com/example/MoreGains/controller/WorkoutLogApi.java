@@ -1,6 +1,7 @@
 package com.example.MoreGains.controller;
 
 import com.example.MoreGains.model.dtos.WorkoutLogDTO;
+import com.example.MoreGains.model.dtos.WorkoutLogSearchRequest;
 import com.example.MoreGains.util.UriConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,4 +25,10 @@ public interface WorkoutLogApi {
 
     @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteWorkoutLog(@PathVariable Integer id);
+
+    @PostMapping(UriConstants.FIND_BY_USER_AND_ISEDITING)
+    ResponseEntity<WorkoutLogDTO> getWorkoutLogByUserIdAndIsEditing(@RequestBody WorkoutLogSearchRequest request);
+
+    @PutMapping(UriConstants.BY_ID)
+    ResponseEntity<WorkoutLogDTO> updateWorkoutLog(@PathVariable Integer id, @RequestBody WorkoutLogDTO workoutLogDTO);
 }

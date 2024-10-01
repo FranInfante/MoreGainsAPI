@@ -51,4 +51,5 @@ public class UriConstants {
     public static final String  WORKOUT_LOG_EXERCISES = BASE_URL + "/workout-log-exercises";
     public static final String BY_WORKOUT_LOG_ID = "/workout-log/{workoutLogId}";
     public static final String BY_USER_ID = "/user/{userId}";
+    public static final String FIND_BY_USER_AND_ISEDITING = "/find-by-user-and-is-editing";
 }

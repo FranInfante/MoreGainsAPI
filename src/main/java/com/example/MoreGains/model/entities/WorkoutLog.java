@@ -38,6 +38,9 @@ public class WorkoutLog {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
+    private boolean isEditing;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

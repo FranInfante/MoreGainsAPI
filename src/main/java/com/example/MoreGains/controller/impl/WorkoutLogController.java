@@ -2,6 +2,7 @@ package com.example.MoreGains.controller.impl;
 
 import com.example.MoreGains.controller.WorkoutLogApi;
 import com.example.MoreGains.model.dtos.WorkoutLogDTO;
+import com.example.MoreGains.model.dtos.WorkoutLogSearchRequest;
 import com.example.MoreGains.service.WorkoutLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,17 @@ public class WorkoutLogController implements WorkoutLogApi {
     public ResponseEntity<Void> deleteWorkoutLog(Integer id) {
         workoutLogService.deleteWorkoutLog(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<WorkoutLogDTO> getWorkoutLogByUserIdAndIsEditing(WorkoutLogSearchRequest request) {
+        WorkoutLogDTO workoutLogDTO = workoutLogService.getWorkoutLogByUserIdAndIsEditing(request.getUserId(), request.getIsEditing());
+        return ResponseEntity.ok(workoutLogDTO);
+    }
+
+    @Override
+    public ResponseEntity<WorkoutLogDTO> updateWorkoutLog(Integer id, WorkoutLogDTO workoutLogDTO) {
+        WorkoutLogDTO updatedWorkoutLog = workoutLogService.updateWorkoutLog(id, workoutLogDTO);
+        return ResponseEntity.ok(updatedWorkoutLog);
     }
 }

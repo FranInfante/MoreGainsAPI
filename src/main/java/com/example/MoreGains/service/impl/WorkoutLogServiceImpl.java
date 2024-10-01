@@ -47,6 +47,7 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
                 .workout(workout)
                 .date(workoutLogDTO.getDate())
                 .notes(workoutLogDTO.getNotes())
+                .isEditing(workoutLogDTO.isEditing())
                 .build();
 
         // Now iterate through exercises and their respective sets
@@ -96,4 +97,44 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
     public void deleteWorkoutLog(Integer id) {
         workoutLogRepository.deleteById(id);
     }
+
+    @Override
+    public WorkoutLogDTO getWorkoutLogByUserIdAndIsEditing(Integer userId, Boolean isEditing) {
+        WorkoutLog workoutLog = workoutLogRepository.findFirstByUserIdAndIsEditing(userId, isEditing)
+                .orElseThrow(() -> new RuntimeException("No workout log found with userId " + userId + " and isEditing = " + isEditing));
+        return WorkoutLogMapper.toDTO(workoutLog);
+    }
+
+    @Override
+    public WorkoutLogDTO updateWorkoutLog(Integer id, WorkoutLogDTO workoutLogDTO) {
+        WorkoutLog workoutLog = workoutLogRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Workout log not found with id " + id));
+
+        workoutLog.setNotes(workoutLogDTO.getNotes());
+        workoutLog.setDate(workoutLogDTO.getDate());
+        workoutLog.setEditing(workoutLogDTO.isEditing());
+
+        workoutLog.getExercises().clear();
+        List<WorkoutLogExercise> exercises = workoutLogDTO.getExercises().stream()
+                .flatMap(exerciseDTO -> exerciseDTO.getSets().stream().map(setDTO -> {
+                    Exercise exercise = exerciseRepository.findById(exerciseDTO.getExerciseId())
+                            .orElseThrow(() -> new RuntimeException("Exercise not found"));
+
+                    return WorkoutLogExercise.builder()
+                            .exercise(exercise)
+                            .workoutLog(workoutLog)
+                            .set(setDTO.getSet())
+                            .reps(setDTO.getReps())
+                            .weight(setDTO.getWeight())
+                            .build();
+                }))
+                .collect(Collectors.toList());
+
+        workoutLog.setExercises(exercises);
+
+        WorkoutLog updatedWorkoutLog = workoutLogRepository.save(workoutLog);
+
+        return WorkoutLogMapper.toDTO(updatedWorkoutLog);
+    }
+
 }
