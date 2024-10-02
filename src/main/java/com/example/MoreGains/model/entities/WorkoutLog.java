@@ -45,4 +45,10 @@ public class WorkoutLog {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+
+    // Method to remove an exercise
+    public void removeExercise(WorkoutLogExercise exercise) {
+        this.exercises.remove(exercise);
+        exercise.setWorkoutLog(null);  // Break the relationship to avoid issues
+    }
 }

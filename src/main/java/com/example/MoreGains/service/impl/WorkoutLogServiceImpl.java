@@ -1,6 +1,9 @@
 package com.example.MoreGains.service.impl;
 
+import com.example.MoreGains.model.dtos.ExerciseDTO;
+import com.example.MoreGains.model.dtos.SetDTO;
 import com.example.MoreGains.model.dtos.WorkoutLogDTO;
+import com.example.MoreGains.model.dtos.WorkoutLogExerciseDTO;
 import com.example.MoreGains.model.entities.*;
 import com.example.MoreGains.repository.ExerciseRepository;
 import com.example.MoreGains.repository.UsersRepository;
@@ -9,10 +12,14 @@ import com.example.MoreGains.repository.WorkoutRepository;
 import com.example.MoreGains.service.WorkoutLogService;
 import com.example.MoreGains.util.mappers.WorkoutLogMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.MoreGains.util.mappers.ExerciseMapper;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -108,33 +115,69 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
     @Override
     public WorkoutLogDTO updateWorkoutLog(Integer id, WorkoutLogDTO workoutLogDTO) {
         WorkoutLog workoutLog = workoutLogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Workout log not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_LOG_NOT_FOUND));
 
+        // Update basic fields
         workoutLog.setNotes(workoutLogDTO.getNotes());
         workoutLog.setDate(workoutLogDTO.getDate());
         workoutLog.setEditing(workoutLogDTO.isEditing());
 
-        workoutLog.getExercises().clear();
-        List<WorkoutLogExercise> exercises = workoutLogDTO.getExercises().stream()
-                .flatMap(exerciseDTO -> exerciseDTO.getSets().stream().map(setDTO -> {
-                    Exercise exercise = exerciseRepository.findById(exerciseDTO.getExerciseId())
-                            .orElseThrow(() -> new RuntimeException("Exercise not found"));
+        // Update exercises
+        List<WorkoutLogExercise> existingExercises = workoutLog.getExercises();
+        List<WorkoutLogExerciseDTO> updatedExercisesDTO = workoutLogDTO.getExercises();
 
-                    return WorkoutLogExercise.builder()
-                            .exercise(exercise)
-                            .workoutLog(workoutLog)
-                            .set(setDTO.getSet())
-                            .reps(setDTO.getReps())
-                            .weight(setDTO.getWeight())
-                            .build();
+        // Create a map of existing exercises for easy lookup by exerciseId
+        Map<Integer, List<WorkoutLogExercise>> existingExerciseMap = existingExercises.stream()
+                .collect(Collectors.groupingBy(e -> e.getExercise().getId()));
+
+        // Update or create new sets
+        List<WorkoutLogExercise> updatedExercises = updatedExercisesDTO.stream()
+                .flatMap(exerciseDTO -> exerciseDTO.getSets().stream().map(setDTO -> {
+                    WorkoutLogExercise existingSet = existingExerciseMap.getOrDefault(exerciseDTO.getExerciseId(), new ArrayList<>())
+                            .stream()
+                            .findFirst()
+                            .orElse(null);
+
+                    if (existingSet != null) {
+                        // Update existing set
+                        existingSet.setSet(setDTO.getSet());
+                        existingSet.setReps(setDTO.getReps());
+                        existingSet.setWeight(setDTO.getWeight());
+                        return existingSet;
+                    } else {
+                        // Create a new set if no existing one matches
+                        return WorkoutLogExercise.builder()
+                                .workoutLog(workoutLog)
+                                .exercise(exerciseRepository.findById(exerciseDTO.getExerciseId())
+                                        .orElseThrow(() -> new EntityNotFoundException(MessageConstants.EXERCISE_NOT_FOUND)))
+                                .set(setDTO.getSet())
+                                .reps(setDTO.getReps())
+                                .weight(setDTO.getWeight())
+                                .build();
+                    }
                 }))
                 .collect(Collectors.toList());
 
-        workoutLog.setExercises(exercises);
+        // Remove any exercises that are no longer present
+        List<WorkoutLogExercise> exercisesToRemove = existingExercises.stream()
+                .filter(e -> !updatedExercises.contains(e))
+                .collect(Collectors.toList());
 
-        WorkoutLog updatedWorkoutLog = workoutLogRepository.save(workoutLog);
+        exercisesToRemove.forEach(workoutLog::removeExercise);
 
-        return WorkoutLogMapper.toDTO(updatedWorkoutLog);
+        workoutLog.setExercises(updatedExercises);
+
+        WorkoutLog savedWorkoutLog = workoutLogRepository.save(workoutLog);
+        return WorkoutLogMapper.toDTO(savedWorkoutLog);
     }
 
+
+
+
+    @Override
+    public ExerciseDTO getExerciseById(Integer exerciseId) {
+        Exercise exercise = exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new EntityNotFoundException("Exercise not found with ID: " + exerciseId));
+        return ExerciseMapper.exerciseEntityToDTO(exercise);
+    }
 }

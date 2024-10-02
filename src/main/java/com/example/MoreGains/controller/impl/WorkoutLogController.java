@@ -1,6 +1,7 @@
 package com.example.MoreGains.controller.impl;
 
 import com.example.MoreGains.controller.WorkoutLogApi;
+import com.example.MoreGains.model.dtos.ExerciseDTO;
 import com.example.MoreGains.model.dtos.WorkoutLogDTO;
 import com.example.MoreGains.model.dtos.WorkoutLogSearchRequest;
 import com.example.MoreGains.service.WorkoutLogService;
@@ -56,5 +57,11 @@ public class WorkoutLogController implements WorkoutLogApi {
     public ResponseEntity<WorkoutLogDTO> updateWorkoutLog(Integer id, WorkoutLogDTO workoutLogDTO) {
         WorkoutLogDTO updatedWorkoutLog = workoutLogService.updateWorkoutLog(id, workoutLogDTO);
         return ResponseEntity.ok(updatedWorkoutLog);
+    }
+
+    @Override
+    public ResponseEntity<ExerciseDTO> getExerciseById(Integer exerciseId) {
+        ExerciseDTO exerciseDTO = workoutLogService.getExerciseById(exerciseId);
+        return ResponseEntity.ok(exerciseDTO);
     }
 }

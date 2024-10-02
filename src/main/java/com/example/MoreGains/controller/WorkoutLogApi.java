@@ -1,5 +1,6 @@
 package com.example.MoreGains.controller;
 
+import com.example.MoreGains.model.dtos.ExerciseDTO;
 import com.example.MoreGains.model.dtos.WorkoutLogDTO;
 import com.example.MoreGains.model.dtos.WorkoutLogSearchRequest;
 import com.example.MoreGains.util.UriConstants;
@@ -31,4 +32,7 @@ public interface WorkoutLogApi {
 
     @PutMapping(UriConstants.BY_ID)
     ResponseEntity<WorkoutLogDTO> updateWorkoutLog(@PathVariable Integer id, @RequestBody WorkoutLogDTO workoutLogDTO);
+
+    @GetMapping(UriConstants.EXERCISE_BY_ID)
+    ResponseEntity<ExerciseDTO> getExerciseById(@PathVariable Integer exerciseId);
 }
