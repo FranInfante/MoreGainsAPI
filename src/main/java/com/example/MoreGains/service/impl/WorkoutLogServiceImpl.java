@@ -133,14 +133,17 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
         // Update or create new sets
         List<WorkoutLogExercise> updatedExercises = updatedExercisesDTO.stream()
                 .flatMap(exerciseDTO -> exerciseDTO.getSets().stream().map(setDTO -> {
-                    WorkoutLogExercise existingSet = existingExerciseMap.getOrDefault(exerciseDTO.getExerciseId(), new ArrayList<>())
-                            .stream()
+                    // Fetch existing sets for this exercise from the map
+                    List<WorkoutLogExercise> existingSets = existingExerciseMap.getOrDefault(exerciseDTO.getExerciseId(), new ArrayList<>());
+
+                    // Check if a matching set already exists
+                    WorkoutLogExercise existingSet = existingSets.stream()
+                            .filter(set -> set.getSet().equals(setDTO.getSet()))
                             .findFirst()
                             .orElse(null);
 
                     if (existingSet != null) {
-                        // Update existing set
-                        existingSet.setSet(setDTO.getSet());
+                        // Update the existing set
                         existingSet.setReps(setDTO.getReps());
                         existingSet.setWeight(setDTO.getWeight());
                         return existingSet;
