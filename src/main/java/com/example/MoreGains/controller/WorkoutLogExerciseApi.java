@@ -21,4 +21,8 @@ public interface WorkoutLogExerciseApi {
 
     @DeleteMapping(UriConstants.BY_ID)
     ResponseEntity<Void> deleteWorkoutLogExercise(@PathVariable Integer id);
+
+    @DeleteMapping(UriConstants.BY_WORKOUT_LOG_ID_EXERCISE_ID_AND_SET_NUMBER)
+    ResponseEntity<Void> deleteWorkoutLogSet(@PathVariable Integer workoutLogId, @PathVariable Integer exerciseId, @PathVariable Integer setNumber);
+
 }

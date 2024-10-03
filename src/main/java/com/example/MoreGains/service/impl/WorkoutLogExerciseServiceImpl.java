@@ -87,4 +87,32 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
     public void deleteWorkoutLogExercise(Integer id) {
         workoutLogExerciseRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteWorkoutLogSet(Integer workoutLogId, Integer exerciseId, Integer setNumber) {
+        // Find all workout log exercises by workoutLogId and exerciseId
+        List<WorkoutLogExercise> exercises = workoutLogExerciseRepository.findByWorkoutLogIdAndExerciseId(workoutLogId, exerciseId);
+
+        // Filter the list to find the set with the given set number
+        WorkoutLogExercise setToDelete = exercises.stream()
+                .filter(exercise -> exercise.getSet().equals(setNumber))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Set not found"));
+
+        // Delete the set from the repository
+        workoutLogExerciseRepository.delete(setToDelete);
+
+        // Remove the deleted set from the list
+        exercises.remove(setToDelete);
+
+        // Reorder subsequent sets
+        exercises.stream()
+                .filter(exercise -> exercise.getSet() > setNumber) // Only reorder sets after the deleted one
+                .forEach(exercise -> {
+                    exercise.setSet(exercise.getSet() - 1); // Decrement the set number
+                });
+
+        workoutLogExerciseRepository.saveAll(exercises);
+    }
+
 }
