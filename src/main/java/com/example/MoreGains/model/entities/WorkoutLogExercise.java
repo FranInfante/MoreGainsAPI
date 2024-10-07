@@ -1,6 +1,5 @@
 package com.example.MoreGains.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,18 +9,27 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WorkoutExercise {
+public class WorkoutLogExercise {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "workout_id", nullable = false)
-    @JsonIgnore
-    private Workout workout;
+    @JoinColumn(name = "workout_log_id", nullable = false)
+    private WorkoutLog workoutLog;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
+
+    @Column(nullable = false)
+    private Integer set;
+
+    @Column(nullable = false)
+    private Integer reps;
+
+    @Column(nullable = true)
+    private Double weight;
 
 }

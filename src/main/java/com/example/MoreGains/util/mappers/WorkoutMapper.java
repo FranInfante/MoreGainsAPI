@@ -1,7 +1,8 @@
-package com.example.MoreGains.util;
+package com.example.MoreGains.util.mappers;
 
 import com.example.MoreGains.model.dtos.WorkoutDTO;
 import com.example.MoreGains.model.entities.Workout;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 
 import static com.example.MoreGains.util.messages.MessageConstants.NULL_WORKOUT_NAME;
 
+@UtilityClass
 public class WorkoutMapper {
 
     public static WorkoutDTO workoutEntityToDTO(Workout workout) {
@@ -23,6 +25,7 @@ public class WorkoutMapper {
                 .description(workout.getDescription())
                 .isAvailable(workout.getIsAvailable())
                 .workoutExercises(WorkoutExerciseMapper.listWorkoutExerciseEntityToDTO(workout.getWorkoutExercises()))
+                .sort(workout.getSort())
                 .build();
     }
 
@@ -50,6 +53,8 @@ public class WorkoutMapper {
         }
         if (workoutDTO.getWorkoutExercises() != null) {
             workout.setWorkoutExercises(WorkoutExerciseMapper.listWorkoutExerciseDTOToEntity(workoutDTO.getWorkoutExercises()));
+        }if (workoutDTO.getSort() != null) {
+            workout.setSort(workoutDTO.getSort());
         } else {
             workout.setWorkoutExercises(new ArrayList<>()); // Default to empty list if not provided
         }

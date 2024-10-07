@@ -4,7 +4,7 @@ import com.example.MoreGains.model.dtos.FavoriteDTO;
 import com.example.MoreGains.model.entities.Favorite;
 import com.example.MoreGains.repository.FavoriteRepository;
 import com.example.MoreGains.service.FavoriteService;
-import com.example.MoreGains.util.FavoriteMapper;
+import com.example.MoreGains.util.mappers.FavoriteMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

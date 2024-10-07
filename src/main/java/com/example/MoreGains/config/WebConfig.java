@@ -75,6 +75,8 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(UriConstants.USERS + UriConstants.USERS_AUTH).permitAll() // User authentication
                         .requestMatchers(UriConstants.USERS + UriConstants.BY_ID).permitAll() // Access user by ID
 
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.BY_ID).permitAll()
+
                         // Allow access to plans-related endpoints
                         .requestMatchers(HttpMethod.GET, UriConstants.PLANS + "/**").permitAll() // Get all plans and plan by ID
                         .requestMatchers(UriConstants.PLANS + UriConstants.PLANS_BY_USER_ID).permitAll() // Get plans by user ID
@@ -87,6 +89,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_CREATE).permitAll()
                         .requestMatchers(HttpMethod.PATCH, UriConstants.PLANS + UriConstants.UPDATE_NAME).permitAll()
                         .requestMatchers(HttpMethod.PATCH, UriConstants.WORKOUTS + UriConstants.UPDATE_NAME).permitAll()
+                        .requestMatchers(HttpMethod.GET, UriConstants.WORKOUTS + UriConstants.BY_ID).permitAll()
                         .requestMatchers(UriConstants.PLANS).permitAll()
                         .requestMatchers(HttpMethod.DELETE, UriConstants.PLANS + UriConstants.WORKOUT_IN_PLAN_DELETE).permitAll()
 
@@ -98,6 +101,25 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.GET, UriConstants.MUSCLE_GROUPS).permitAll()
 
                         .requestMatchers(HttpMethod.POST, UriConstants.EXERCISES + UriConstants.EXERCISES_CREATE).permitAll()
+                        // WorkoutLog-related endpoints
+                        .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG + "/**").permitAll() // Get all workout logs
+                        .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG).permitAll() // Create a workout log
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG + UriConstants.BY_ID).permitAll() // Delete a workout log by ID
+                        .requestMatchers(HttpMethod.PUT, UriConstants.WORKOUT_LOG + UriConstants.BY_ID).permitAll()
+
+
+                        .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG + UriConstants.FIND_BY_USER_AND_ISEDITING).permitAll()
+                        .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG + UriConstants.EXERCISE_BY_ID).permitAll()
+
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_WORKOUT_LOG_ID_EXERCISE_ID_AND_SET_NUMBER).permitAll()
+
+                        // WorkoutLogExercise-related endpoints
+                        .requestMatchers(HttpMethod.GET, UriConstants.WORKOUT_LOG_EXERCISES + "/**").permitAll() // Get all workout log exercises
+                        .requestMatchers(HttpMethod.POST, UriConstants.WORKOUT_LOG_EXERCISES).permitAll() // Create a workout log exercise
+                        .requestMatchers(HttpMethod.PUT, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_ID).permitAll() // Update workout log exercise
+                        .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_ID).permitAll() // Delete a workout log exercise by ID
+
+
 
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 

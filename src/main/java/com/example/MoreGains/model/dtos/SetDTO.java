@@ -7,7 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WorkoutExerciseDTO {
-    private Integer id;
-    private String exerciseName;
+public class SetDTO {
+    private Integer set;
+    private Integer reps;
+    private Double weight;
 }

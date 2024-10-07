@@ -1,10 +1,13 @@
-package com.example.MoreGains.util;
+package com.example.MoreGains.util.mappers;
 
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
 import com.example.MoreGains.model.entities.WorkoutExercise;
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class WorkoutExerciseMapper {
 
     public static WorkoutExerciseDTO workoutExerciseEntityToDTO(WorkoutExercise workoutExercise) {
@@ -14,9 +17,6 @@ public class WorkoutExerciseMapper {
 
         return WorkoutExerciseDTO.builder()
                 .id(workoutExercise.getId())
-                .reps(workoutExercise.getReps() != null ? workoutExercise.getReps() : 0)
-                .sets(workoutExercise.getSets() != null ? workoutExercise.getSets() : 0)
-                .weight(workoutExercise.getWeight() != null ? workoutExercise.getWeight() : 0)
                 .exerciseName(workoutExercise.getExercise().getName())
                 .build();
     }
@@ -28,9 +28,6 @@ public class WorkoutExerciseMapper {
 
         WorkoutExercise workoutExercise = new WorkoutExercise();
         workoutExercise.setId(workoutExerciseDTO.getId());
-        workoutExercise.setReps(workoutExerciseDTO.getReps() != null ? workoutExerciseDTO.getReps() : 0);
-        workoutExercise.setSets(workoutExerciseDTO.getSets() != null ? workoutExerciseDTO.getSets() : 0);
-        workoutExercise.setWeight(workoutExerciseDTO.getWeight() != null ? workoutExerciseDTO.getWeight() : 0);
 
         return workoutExercise;
     }

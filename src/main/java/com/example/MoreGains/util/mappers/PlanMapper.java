@@ -1,10 +1,13 @@
-package com.example.MoreGains.util;
+package com.example.MoreGains.util.mappers;
 
 import com.example.MoreGains.model.dtos.PlanDTO;
 import com.example.MoreGains.model.entities.Plan;
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class PlanMapper {
 
     public static PlanDTO planEntityToDTO(Plan plan) {

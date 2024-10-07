@@ -63,7 +63,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedUsers() {
+    public void seedUsers() {
         Users[] users = {
                 Users.builder()
                         .username("user1")
@@ -121,7 +121,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedMuscleGroups() {
+    public void seedMuscleGroups() {
         MuscleGroup[] muscleGroups = {
                 MuscleGroup.builder().name(MuscleGroupType.LEGS).build(),
                 MuscleGroup.builder().name(MuscleGroupType.BACK).build(),
@@ -189,7 +189,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedFavorites() {
+    public void seedFavorites() {
         user1.ifPresent(u -> {
             Optional<Exercise> squat = exerciseRepository.findByNameIgnoreCase("Squats");
             squat.ifPresent(exercise -> {
@@ -232,7 +232,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedWorkouts() {
+    public void seedWorkouts() {
         user1.ifPresent(u -> {
             Workout workout1 = Workout.builder()
                     .user(u)
@@ -267,7 +267,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedWorkoutExercises() {
+    public void seedWorkoutExercises() {
         Optional<Workout> legDay = workoutRepository.findByNameIgnoreCase("Leg Day");
         Optional<Exercise> squats = exerciseRepository.findByNameIgnoreCase("Squats");
 
@@ -275,9 +275,6 @@ public class DataSeeder implements CommandLineRunner {
             WorkoutExercise legDaySquats = WorkoutExercise.builder()
                     .workout(legDay.get())
                     .exercise(squats.get())
-                    .sets(4)
-                    .reps(10)
-                    .weight(100.0)
                     .build();
 
             workoutExerciseRepository.save(legDaySquats);
@@ -290,9 +287,6 @@ public class DataSeeder implements CommandLineRunner {
             WorkoutExercise backAndBicepsDeadlifts = WorkoutExercise.builder()
                     .workout(backAndBiceps.get())
                     .exercise(deadlifts.get())
-                    .sets(3)
-                    .reps(12)
-                    .weight(120.0)
                     .build();
 
             workoutExerciseRepository.save(backAndBicepsDeadlifts);
@@ -305,9 +299,6 @@ public class DataSeeder implements CommandLineRunner {
             WorkoutExercise chestAndTricepsBenchPress = WorkoutExercise.builder()
                     .workout(chestAndTriceps.get())
                     .exercise(benchPress.get())
-                    .sets(4)
-                    .reps(8)
-                    .weight(80.0)
                     .build();
 
             workoutExerciseRepository.save(chestAndTricepsBenchPress);
@@ -315,7 +306,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedPlans() {
+    public void seedPlans() {
         user1.ifPresent(u -> {
             List<Workout> workouts = workoutRepository.findAllByUser(u);
 
@@ -353,7 +344,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Transactional
-    private void seedClientTrainers() {
+    public void seedClientTrainers() {
         trainer1.ifPresent(trainer -> {
             client1.ifPresent(client -> {
                 ClientTrainer clientTrainer1 = ClientTrainer.builder()
