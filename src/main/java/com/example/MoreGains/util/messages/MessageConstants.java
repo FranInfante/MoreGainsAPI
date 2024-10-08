@@ -19,4 +19,10 @@ public class MessageConstants {
     public static final String NULL_WORKOUT_NAME = "Workout name cannot be null or empty";
     public static final String WORKOUT_LOG_EXERCISE_NOT_FOUND = "Workout log exercise not found";
     public static final String WORKOUT_LOG_NOT_FOUND = "Workout log not found";
+    public static final String NO_WORKOUT_FOUND_IN_PLAN = "No workouts found in the plan.";
+    public static final String SET_NOT_FOUND = "Set not found";
+    public static final String USER_DISABLE = "USER_DISABLED";
+    public static final String INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
+
+
 }

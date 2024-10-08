@@ -200,7 +200,7 @@ public class PlanServiceImpl implements PlanService {
 
         List<Workout> workouts = plan.getWorkouts();
         if (workouts == null) {
-            throw new Exception("No workouts found in the plan.");
+            throw new Exception(MessageConstants.NO_WORKOUT_FOUND_IN_PLAN);
         }
 
         // Map workout IDs to their new positions
