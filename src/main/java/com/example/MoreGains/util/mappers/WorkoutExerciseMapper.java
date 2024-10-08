@@ -17,6 +17,7 @@ public class WorkoutExerciseMapper {
 
         return WorkoutExerciseDTO.builder()
                 .id(workoutExercise.getId())
+                .exerciseId(workoutExercise.getExercise().getId())
                 .exerciseName(workoutExercise.getExercise().getName())
                 .build();
     }
