@@ -43,10 +43,10 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
     public WorkoutLogDTO createWorkoutLog(WorkoutLogDTO workoutLogDTO) {
         // Fetch the user and workout from the repository
         Users user = userRepository.findById(workoutLogDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.USER_NOT_FOUND));
 
         Workout workout = workoutRepository.findById(workoutLogDTO.getWorkoutId())
-                .orElseThrow(() -> new RuntimeException("Workout not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.WORKOUT_NOT_FOUND));
 
         // Create the WorkoutLog entity
         WorkoutLog workoutLog = WorkoutLog.builder()
@@ -62,7 +62,7 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
                 .flatMap(exerciseDTO -> exerciseDTO.getSets().stream().map(setDTO -> {
                     // Fetch the Exercise entity
                     Exercise exercise = exerciseRepository.findById(exerciseDTO.getExerciseId())
-                            .orElseThrow(() -> new RuntimeException("Exercise not found"));
+                            .orElseThrow(() -> new RuntimeException(MessageConstants.EXERCISE_NOT_FOUND));
 
                     // Create a WorkoutLogExercise for each set
                     return WorkoutLogExercise.builder()
@@ -108,7 +108,7 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
     @Override
     public WorkoutLogDTO getWorkoutLogByUserIdAndIsEditing(Integer userId, Boolean isEditing) {
         WorkoutLog workoutLog = workoutLogRepository.findFirstByUserIdAndIsEditing(userId, isEditing)
-                .orElseThrow(() -> new RuntimeException("No workout log found with userId " + userId + " and isEditing = " + isEditing));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.WORKOUT_LOG_NOT_FOUND));
         return WorkoutLogMapper.toDTO(workoutLog);
     }
 
@@ -180,7 +180,7 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
     @Override
     public ExerciseDTO getExerciseById(Integer exerciseId) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .orElseThrow(() -> new EntityNotFoundException("Exercise not found with ID: " + exerciseId));
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.EXERCISE_NOT_FOUND));
         return ExerciseMapper.exerciseEntityToDTO(exercise);
     }
 }

@@ -39,10 +39,10 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
     public WorkoutLogExerciseDTO addWorkoutLogExercise(WorkoutLogExerciseDTO workoutLogExerciseDTO) {
         // Find the exercise and workout log entities
         Exercise exercise = exerciseRepository.findById(workoutLogExerciseDTO.getExerciseId())
-                .orElseThrow(() -> new RuntimeException("Exercise not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.EXERCISE_NOT_FOUND));
 
         WorkoutLog workoutLog = workoutLogRepository.findById(workoutLogExerciseDTO.getWorkoutLogId())
-                .orElseThrow(() -> new RuntimeException("Workout log not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.WORKOUT_LOG_NOT_FOUND));
 
         // Loop through the sets and create a WorkoutLogExercise for each set
         List<WorkoutLogExercise> workoutLogExercises = workoutLogExerciseDTO.getSets().stream()
@@ -62,7 +62,7 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
         return savedWorkoutLogExercises.stream()
                 .map(WorkoutLogExerciseMapper::toDTO)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Failed to save WorkoutLogExercise"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.WORKOUT_LOG_EXERCISE_NOT_FOUND));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
         WorkoutLogExercise setToDelete = exercises.stream()
                 .filter(exercise -> exercise.getSet().equals(setNumber))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Set not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.SET_NOT_FOUND));
 
         // Delete the set from the repository
         workoutLogExerciseRepository.delete(setToDelete);
