@@ -19,6 +19,7 @@ public class WorkoutLogExerciseMapper {
         WorkoutLogExerciseDTO dto = new WorkoutLogExerciseDTO();
 
         dto.setId(workoutLogExercise.getId());
+        dto.setExerciseName(workoutLogExercise.getExercise().getName());
         dto.setExerciseId(workoutLogExercise.getExercise().getId());
         dto.setWorkoutLogId(workoutLogExercise.getWorkoutLog().getId());
 

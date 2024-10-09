@@ -15,6 +15,7 @@ public class WorkoutLogMapper {
         dto.setId(workoutLog.getId());
         dto.setUserId(workoutLog.getUser().getId());
         dto.setWorkoutId(workoutLog.getWorkout().getId());
+        dto.setWorkoutName(workoutLog.getWorkout().getName());
         dto.setDate(workoutLog.getDate());
         dto.setNotes(workoutLog.getNotes());
         dto.setEditing(workoutLog.isEditing());
