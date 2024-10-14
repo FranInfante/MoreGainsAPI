@@ -32,4 +32,6 @@ public class WorkoutLogExercise {
     @Column(nullable = true)
     private Double weight;
 
+    @Column(nullable = true)
+    private String notes;
 }

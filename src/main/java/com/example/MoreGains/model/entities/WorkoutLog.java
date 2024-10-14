@@ -32,9 +32,6 @@ public class WorkoutLog {
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @Column(nullable = true)
-    private String notes;
-
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
