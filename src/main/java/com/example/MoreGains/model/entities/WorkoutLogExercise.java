@@ -26,7 +26,7 @@ public class WorkoutLogExercise {
     @Column(nullable = false)
     private Integer set;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer reps;
 
     @Column(nullable = true)
