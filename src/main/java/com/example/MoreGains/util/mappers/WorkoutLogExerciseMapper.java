@@ -22,6 +22,7 @@ public class WorkoutLogExerciseMapper {
         dto.setExerciseName(workoutLogExercise.getExercise().getName());
         dto.setExerciseId(workoutLogExercise.getExercise().getId());
         dto.setWorkoutLogId(workoutLogExercise.getWorkoutLog().getId());
+        dto.setNotes(workoutLogExercise.getNotes() != null ? workoutLogExercise.getNotes() : "");
 
         // Group sets under this exercise
         SetDTO setDTO = new SetDTO(workoutLogExercise.getSet(), workoutLogExercise.getReps(), workoutLogExercise.getWeight());
@@ -30,12 +31,13 @@ public class WorkoutLogExerciseMapper {
         return dto;
     }
 
-    public static WorkoutLogExercise toEntity(SetDTO setDTO, WorkoutLog workoutLog, Exercise exercise) {
+    public static WorkoutLogExercise toEntity(SetDTO setDTO,WorkoutLogExerciseDTO dto, WorkoutLog workoutLog, Exercise exercise) {
         WorkoutLogExercise exerciseEntity = new WorkoutLogExercise();
         exerciseEntity.setSet(setDTO.getSet());
         exerciseEntity.setReps(setDTO.getReps());
         exerciseEntity.setWeight(setDTO.getWeight());
         exerciseEntity.setWorkoutLog(workoutLog);
+        exerciseEntity.setNotes(dto.getNotes());
         exerciseEntity.setExercise(exercise);
 
         return exerciseEntity;

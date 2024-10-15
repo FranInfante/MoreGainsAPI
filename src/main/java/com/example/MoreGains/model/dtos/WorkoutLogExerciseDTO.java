@@ -15,5 +15,6 @@ public class WorkoutLogExerciseDTO {
     private String exerciseName;
     private List<SetDTO> sets;
     private Integer workoutLogId;
+    private String notes;
 
 }

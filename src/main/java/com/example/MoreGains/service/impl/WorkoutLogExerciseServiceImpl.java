@@ -52,6 +52,7 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
                         .set(setDTO.getSet()) // Set number
                         .reps(setDTO.getReps())
                         .weight(setDTO.getWeight())
+                        .notes(workoutLogExerciseDTO.getNotes() != null ? workoutLogExerciseDTO.getNotes() : "")
                         .build()
                 ).collect(Collectors.toList());
 
@@ -67,10 +68,13 @@ public class WorkoutLogExerciseServiceImpl implements WorkoutLogExerciseService 
 
     @Override
     public WorkoutLogExerciseDTO updateWorkoutLogExercise(Integer id, WorkoutLogExerciseDTO workoutLogExerciseDTO) {
+
+
         // Retrieve and update existing WorkoutLogExercise
         WorkoutLogExercise workoutLogExercise = workoutLogExerciseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(MessageConstants.WORKOUT_LOG_EXERCISE_NOT_FOUND));
 
+        workoutLogExercise.setNotes(workoutLogExerciseDTO.getNotes());
         if (workoutLogExerciseDTO.getSets() != null && !workoutLogExerciseDTO.getSets().isEmpty()) {
             // Update with the first set provided, assuming only one set update is allowed here
             workoutLogExercise.setSet(workoutLogExerciseDTO.getSets().get(0).getSet());

@@ -15,7 +15,6 @@ public class WorkoutLogDTO {
     private Integer userId;
     private Integer workoutId;
     private String workoutName;
-    private String notes;
     private LocalDateTime date;
     private List<WorkoutLogExerciseDTO> exercises;
     private boolean isEditing;

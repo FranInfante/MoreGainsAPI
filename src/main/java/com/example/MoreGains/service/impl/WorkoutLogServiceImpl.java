@@ -53,7 +53,6 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
                 .user(user)
                 .workout(workout)
                 .date(workoutLogDTO.getDate())
-                .notes(workoutLogDTO.getNotes())
                 .isEditing(workoutLogDTO.isEditing())
                 .build();
 
@@ -117,8 +116,6 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
         WorkoutLog workoutLog = workoutLogRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_LOG_NOT_FOUND));
 
-        // Update basic fields
-        workoutLog.setNotes(workoutLogDTO.getNotes());
         workoutLog.setDate(workoutLogDTO.getDate());
         workoutLog.setEditing(workoutLogDTO.isEditing());
 

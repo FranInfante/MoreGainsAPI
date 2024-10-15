@@ -17,7 +17,6 @@ public class WorkoutLogMapper {
         dto.setWorkoutId(workoutLog.getWorkout().getId());
         dto.setWorkoutName(workoutLog.getWorkout().getName());
         dto.setDate(workoutLog.getDate());
-        dto.setNotes(workoutLog.getNotes());
         dto.setEditing(workoutLog.isEditing());
         dto.setExercises(workoutLog.getExercises() != null
                 ? workoutLog.getExercises().stream()
@@ -30,7 +29,6 @@ public class WorkoutLogMapper {
     public static WorkoutLog toEntity(WorkoutLogDTO dto) {
         WorkoutLog workoutLog = new WorkoutLog();
         workoutLog.setDate(dto.getDate());
-        workoutLog.setNotes(dto.getNotes());
         workoutLog.setEditing(false);
         return workoutLog;
     }
