@@ -13,4 +13,6 @@ public interface WorkoutRepository extends JpaRepository<Workout, Integer> {
     Optional<Workout> findByNameIgnoreCase(String day);
 
     List<Workout> findAllByUser(Users u);
+
+    List<Workout> findByUserId(Integer userId);
 }

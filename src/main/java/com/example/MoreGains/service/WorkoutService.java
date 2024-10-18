@@ -5,6 +5,7 @@ import com.example.MoreGains.model.dtos.WorkoutDTO;
 import java.util.List;
 
 public interface WorkoutService {
+    List<WorkoutDTO> getWorkoutsByUserId(Integer userId);
     List<WorkoutDTO> getAllWorkouts();
     WorkoutDTO getWorkoutById(Integer id);
     WorkoutDTO saveWorkout(WorkoutDTO workoutDTO);

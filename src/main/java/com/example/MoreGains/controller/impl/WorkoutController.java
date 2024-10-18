@@ -56,4 +56,10 @@ public class WorkoutController implements WorkoutApi {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @Override
+    public ResponseEntity<List<WorkoutDTO>> getWorkoutsByUserId(Integer userId) {
+        List<WorkoutDTO> workouts = workoutService.getWorkoutsByUserId(userId);
+        return ResponseEntity.ok(workouts);
+    }
 }

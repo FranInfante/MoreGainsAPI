@@ -310,36 +310,34 @@ public class DataSeeder implements CommandLineRunner {
         user1.ifPresent(u -> {
             List<Workout> workouts = workoutRepository.findAllByUser(u);
 
-            Plan plan1 = Plan.builder()
-                    .name("Beginner Plan")
-                    .user(u)
-                    .build();
-            if (!workouts.isEmpty()) {
-                plan1.setWorkouts(Arrays.asList(workouts.get(0))); // Associate a unique workout to this plan
-            }
-            planRepository.save(plan1);
+            // Check that the user has at least 3 workouts
+            if (workouts.size() >= 3) {
+                // Plan 1 with Workout 1
+                Plan plan1 = Plan.builder()
+                        .name("Beginner Plan")
+                        .user(u)
+                        .workouts(Arrays.asList(workouts.get(0))) // Assign first workout
+                        .build();
+                planRepository.save(plan1);
 
-            Plan plan2 = Plan.builder()
-                    .name("Intermediate Plan")
-                    .user(u)
-                    .build();
-            if (workouts.size() > 1) {
-                plan2.setWorkouts(Arrays.asList(workouts.get(1))); // Associate a unique workout to this plan
-            }
-            planRepository.save(plan2);
-        });
+                // Plan 2 with Workout 2
+                Plan plan2 = Plan.builder()
+                        .name("Intermediate Plan")
+                        .user(u)
+                        .workouts(Arrays.asList(workouts.get(1))) // Assign second workout
+                        .build();
+                planRepository.save(plan2);
 
-        user2.ifPresent(u -> {
-            List<Workout> workouts = workoutRepository.findAllByUser(u);
-
-            Plan plan3 = Plan.builder()
-                    .name("Advanced Plan")
-                    .user(u)
-                    .build();
-            if (!workouts.isEmpty()) {
-                plan3.setWorkouts(Arrays.asList(workouts.get(0))); // Ensure the workout list is not empty
+                // Plan 3 with Workout 3
+                Plan plan3 = Plan.builder()
+                        .name("Advanced Plan")
+                        .user(u)
+                        .workouts(Arrays.asList(workouts.get(2))) // Assign third workout
+                        .build();
+                planRepository.save(plan3);
+            } else {
+                System.out.println("User1 does not have enough workouts to seed all plans.");
             }
-            planRepository.save(plan3);
         });
     }
 

@@ -30,4 +30,6 @@ public interface WorkoutApi {
     @PatchMapping(UriConstants.UPDATE_NAME)
     ResponseEntity<WorkoutDTO> updateWorkoutName(@PathVariable Integer id, @RequestBody UpdateWorkoutNameDTO updateWorkoutNameDTO);
 
+    @GetMapping(UriConstants.WORKOUTS_BY_USER)
+    ResponseEntity<List<WorkoutDTO>> getWorkoutsByUserId(@PathVariable Integer userId);
 }
