@@ -1,8 +1,11 @@
 package com.example.MoreGains.service.impl;
 
 import com.example.MoreGains.model.dtos.WorkoutExerciseDTO;
+import com.example.MoreGains.model.entities.Exercise;
 import com.example.MoreGains.model.entities.WorkoutExercise;
+import com.example.MoreGains.repository.ExerciseRepository;
 import com.example.MoreGains.repository.WorkoutExerciseRepository;
+import com.example.MoreGains.repository.WorkoutRepository;
 import com.example.MoreGains.service.WorkoutExerciseService;
 import com.example.MoreGains.util.mappers.WorkoutExerciseMapper;
 import com.example.MoreGains.util.messages.MessageConstants;
@@ -18,6 +21,9 @@ public class WorkoutExerciseServiceImpl implements WorkoutExerciseService {
 
     private final WorkoutExerciseRepository workoutExerciseRepository;
 
+    private final WorkoutRepository workoutRepository;
+    private final ExerciseRepository exerciseRepository;
+
     @Override
     public List<WorkoutExerciseDTO> getAllWorkoutExercises() {
         List<WorkoutExercise> workoutExercises = workoutExerciseRepository.findAll();
@@ -30,11 +36,21 @@ public class WorkoutExerciseServiceImpl implements WorkoutExerciseService {
         return WorkoutExerciseMapper.listWorkoutExerciseEntityToDTO(exercises);
     }
 
-    @Override
     public WorkoutExerciseDTO saveWorkoutExercise(WorkoutExerciseDTO workoutExerciseDTO) {
-        WorkoutExercise workoutExercise = WorkoutExerciseMapper.workoutExerciseDTOToEntity(workoutExerciseDTO);
-        WorkoutExercise savedWorkoutExercise = workoutExerciseRepository.save(workoutExercise);
-        return WorkoutExerciseMapper.workoutExerciseEntityToDTO(savedWorkoutExercise);
+        WorkoutExercise workoutExercise = workoutExerciseRepository.findById(workoutExerciseDTO.getId())
+                .orElse(new WorkoutExercise());
+
+        Exercise exercise = exerciseRepository.findById(workoutExerciseDTO.getExerciseId())
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.EXERCISE_NOT_FOUND));
+
+        workoutExercise.setExercise(exercise);
+        workoutExercise.setExerciseOrder(workoutExerciseDTO.getExerciseOrder());
+        workoutExercise.setWorkout(workoutRepository.findById(workoutExerciseDTO.getWorkoutId())
+                .orElseThrow(() -> new EntityNotFoundException(MessageConstants.WORKOUT_NOT_FOUND)));
+
+        workoutExercise = workoutExerciseRepository.save(workoutExercise);
+
+        return WorkoutExerciseMapper.workoutExerciseEntityToDTO(workoutExercise);
     }
 
     @Override

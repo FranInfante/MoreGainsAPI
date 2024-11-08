@@ -119,7 +119,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.PUT, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_ID).permitAll() // Update workout log exercise
                         .requestMatchers(HttpMethod.DELETE, UriConstants.WORKOUT_LOG_EXERCISES + UriConstants.BY_ID).permitAll() // Delete a workout log exercise by ID
                         .requestMatchers(HttpMethod.GET, UriConstants.WORKOUTS + UriConstants.WORKOUTS_BY_USER).permitAll()
-
+                        .requestMatchers(HttpMethod.PUT, UriConstants.WORKOUT_EXERCISES + UriConstants.BY_ID).permitAll()
 
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 

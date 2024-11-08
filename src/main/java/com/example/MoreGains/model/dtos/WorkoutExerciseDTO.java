@@ -11,4 +11,7 @@ public class WorkoutExerciseDTO {
     private Integer id;
     private Integer exerciseId;
     private String exerciseName;
+    private Integer exerciseOrder;
+    private Integer workoutId;
+
 }

@@ -19,6 +19,7 @@ public class WorkoutExerciseMapper {
                 .id(workoutExercise.getId())
                 .exerciseId(workoutExercise.getExercise().getId())
                 .exerciseName(workoutExercise.getExercise().getName())
+                .exerciseOrder(workoutExercise.getExerciseOrder())
                 .build();
     }
 
@@ -29,6 +30,7 @@ public class WorkoutExerciseMapper {
 
         WorkoutExercise workoutExercise = new WorkoutExercise();
         workoutExercise.setId(workoutExerciseDTO.getId());
+        workoutExercise.setExerciseOrder(workoutExerciseDTO.getExerciseOrder());
 
         return workoutExercise;
     }
