@@ -34,4 +34,7 @@ public class WorkoutLogExercise {
 
     @Column(nullable = true)
     private String notes;
+
+    @Column(nullable = true)
+    private Integer exerciseOrder;
 }
