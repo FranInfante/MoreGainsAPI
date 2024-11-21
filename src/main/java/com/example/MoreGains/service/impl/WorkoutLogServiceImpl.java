@@ -67,6 +67,7 @@ public class WorkoutLogServiceImpl implements WorkoutLogService {
                     return WorkoutLogExercise.builder()
                             .exercise(exercise)
                             .workoutLog(workoutLog)
+                            .exerciseOrder(exerciseDTO.getExerciseOrder())
                             .set(setDTO.getSet())  // Each set has set, reps, and weight
                             .reps(setDTO.getReps())
                             .weight(setDTO.getWeight())
